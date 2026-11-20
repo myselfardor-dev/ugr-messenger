@@ -27,6 +27,28 @@ button,input,textarea{font:inherit}button{cursor:pointer;color:inherit;border:0}
 .profile-preview{position:relative;display:flex;align-items:center;gap:14px;min-height:90px;padding:16px;background:linear-gradient(120deg,#27213a,#191722);border:1px solid #39314c;border-radius:16px;overflow:hidden}
 .profile-preview-main{display:flex;align-items:center;gap:13px;min-width:0;position:relative;z-index:1}.profile-preview-avatar{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(145deg,#9874ec,#5132a2);font-weight:900;overflow:hidden;flex:none}.profile-preview-avatar img{width:100%;height:100%;object-fit:cover}.profile-preview-avatar.emoji-avatar{font-size:30px}.curtain{position:absolute;top:0;bottom:0;width:52%;z-index:3;pointer-events:none;transition:transform .85s cubic-bezier(.2,.8,.2,1);background:repeating-linear-gradient(90deg,var(--curtain-base,#5a3b8d) 0,var(--curtain-base,#5a3b8d) 7px,color-mix(in srgb,var(--curtain-base,#5a3b8d),white 20%) 10px,color-mix(in srgb,var(--curtain-base,#5a3b8d),black 22%) 15px,color-mix(in srgb,var(--curtain-base,#5a3b8d),white 10%) 21px);transform-origin:top center;animation:curtainBreeze 5.5s ease-in-out infinite alternate;box-shadow:inset -8px 0 14px #1a102b88,inset 8px 0 14px #c5a1ff22}.curtain.left{left:0;border-right:2px solid #b28ce8}.curtain.right{right:0;border-left:2px solid #b28ce8;transform:translateX(0)}.profile-preview.closed .curtain.left{transform:translateX(0)}.profile-preview.closed .curtain.right{transform:translateX(0)}.profile-preview.opened .curtain.left{transform:translateX(-102%)}.profile-preview.opened .curtain.right{transform:translateX(102%)}@keyframes curtainBreeze{0%{filter:brightness(.96);background-position:0 0}50%{filter:brightness(1.06);background-position:3px 0}100%{filter:brightness(.98);background-position:-2px 0}}.curtain.left{animation-delay:-1.8s}.curtain.right{animation-delay:-.4s}.curtain-toggle{width:100%;margin-top:9px}.emoji-picker{display:flex;flex-wrap:wrap;gap:7px}.emoji-choice{width:42px;height:42px;border-radius:12px;background:#252332;border:1px solid #383348;font-size:23px}.emoji-choice.selected{border-color:#b59aff;background:#493477}.developer-toast{position:fixed;right:14px;bottom:16px;z-index:35;width:min(340px,calc(100vw - 28px));background:#211b30;border:1px solid #70549f;border-radius:16px;box-shadow:0 12px 35px #0009;padding:12px}.developer-toast.collapsed{width:52px;height:52px;padding:0;border-radius:50%;display:grid;place-items:center}.developer-toast button{background:transparent}.developer-toast .dev-open{font-size:23px}.developer-toast p{margin:7px 0 10px;font-size:13px;color:#e5dff2}.developer-toast .dev-actions{display:flex;gap:8px}.profile-actions{display:flex;gap:8px;flex-wrap:wrap}.profile-actions button{flex:1}.xp-pill{display:inline-flex;align-items:center;gap:6px;background:#332849;color:#d9c5ff;border:1px solid #584477;border-radius:99px;padding:6px 10px;font-size:12px;font-weight:800}.rank-row{display:flex;align-items:center;gap:12px;padding:12px;border-bottom:1px solid var(--line)}.rank-num{width:28px;height:28px;display:grid;place-items:center;border-radius:9px;background:#2b2638;color:#d7c4ff;font-weight:800}.rank-name{flex:1;min-width:0;font-weight:700}.rank-xp{color:#c5a9ff;font-size:12px;font-weight:800}.notification-row{padding:12px;border-bottom:1px solid var(--line);cursor:pointer}.notification-row.unread{background:#272137}.notification-row small{display:block;color:var(--muted);margin-top:4px}
 @media(max-width:700px){.app{grid-template-columns:1fr;min-height:0}.sidebar{border-right:0;min-height:0}.main{display:none}.app.show-chat .sidebar{display:none}.app.show-chat .main{display:flex}.topbar{height:66px;padding:0 12px}.messages{padding:18px 12px}.bubble{max-width:88%}.composer-wrap{padding:9px 10px 13px}.brand{padding-top:18px}.mobile-back{display:block}.toolbar{padding-bottom:8px}}
+
+/* UGR DARK PREMIUM refresh — layout behavior intentionally preserved */
+:root{--bg:#08090e;--panel:#10121a;--panel2:#171a24;--line:#272b39;--muted:#9299ad;--text:#f4f6fc;--accent:#a78bfa;--accent2:#7655e8;--green:#58e0ad;--red:#ff788d}
+body{background:radial-gradient(ellipse at 10% 0%,#22204244,transparent 38%),radial-gradient(ellipse at 90% 100%,#15334b22,transparent 35%),var(--bg)}
+.app{background:linear-gradient(160deg,#11131b,#0c0e14);border:1px solid #202434;border-radius:0;box-shadow:0 0 45px #05060a66}
+.sidebar{background:linear-gradient(180deg,#12141d,#0d0f15)}
+.logo{background:linear-gradient(145deg,#80caff,#8f6bff 65%,#6235cf);box-shadow:0 7px 24px #7755ed44}
+.brand-name{letter-spacing:2.5px}.brand-sub{color:#8a91a7}
+.search input,.field{background:#171a24;border-color:#282e3d;transition:border-color .18s,box-shadow .18s}.search input:focus,.field:focus{border-color:#8270df;box-shadow:0 0 0 3px #8270df1c}
+.chat{margin:3px 0;padding:12px;border:1px solid transparent;transition:background .16s,border-color .16s}.chat:hover{background:#1a1e2b;border-color:#252b3b}.chat.active{background:linear-gradient(110deg,#292442,#1a2534);border-color:#373457}
+.avatar,.me-avatar{background:linear-gradient(145deg,#76bdf2,#8a68ec 70%,#5b43c2);box-shadow:0 4px 14px #7059ce25}
+.main{background:radial-gradient(ellipse at 70% 0%,#2b285022,transparent 42%),#0c0e14}.topbar{background:#11141bdc;border-bottom-color:#242938;backdrop-filter:blur(14px)}
+.messages{background-image:radial-gradient(#30344722 1px,transparent 1px);background-size:22px 22px}
+.bubble{background:linear-gradient(145deg,#1b202a,#181b24);border-color:#2b3140;box-shadow:0 3px 12px #00000012}.bubble.mine{background:linear-gradient(145deg,#4c3b86,#393c79 85%);border-color:#5d579b;box-shadow:0 5px 18px #51458b25}
+.composer{background:#171a24;border-color:#303647;box-shadow:0 5px 25px #0002}.composer-wrap{background:#10131bdc;border-color:#252b38;backdrop-filter:blur(12px)}.send,.primary{background:linear-gradient(135deg,#8b73ed,#6a53d4);box-shadow:0 5px 16px #765ce733}.send:hover,.primary:hover{filter:brightness(1.08)}
+.smallbtn{background:linear-gradient(145deg,#1d202b,#181b24);border-color:#2d3342}.smallbtn:hover{border-color:#7564c9;background:#232536}.toolbar .smallbtn{border-radius:11px}
+.screen{background:radial-gradient(ellipse at 15% 10%,#282248,transparent 40%),radial-gradient(ellipse at 90% 85%,#17334a55,transparent 42%),#090b11}.panel{background:linear-gradient(145deg,#171a24,#12141c);border-color:#2a3040;box-shadow:0 25px 80px #0009}
+.toast{background:#202535;border-color:#4b5270;box-shadow:0 8px 30px #0006}.notification-row.unread{background:#22253a}
+.developer-card{margin:2px 14px 12px;padding:13px;border:1px solid #30324a;border-radius:15px;background:linear-gradient(135deg,#1d1a30,#151d2a);box-shadow:inset 0 1px #ffffff08}.developer-card-head{display:flex;align-items:center;gap:10px}.dev-orb{width:32px;height:32px;border-radius:11px;display:grid;place-items:center;background:linear-gradient(135deg,#80d0ff,#9477ff);color:#101320;font-weight:900;box-shadow:0 0 18px #6caeff22}.developer-card-head small{display:block;color:#9ba3ba;font-size:11px;margin-top:2px}.developer-identity{margin:10px 0 9px;color:#d5d8e8;font-size:13px;font-weight:700}.verified-badge{display:inline-grid;place-items:center;width:17px;height:17px;vertical-align:middle;margin-left:3px;border-radius:50%;background:#37a5f8;color:white;font-size:11px;font-weight:900;box-shadow:0 0 9px #37a5f833}.developer-role{font-size:11px;color:#8ecbff;margin-top:3px}.developer-actions{display:flex;gap:7px}.developer-actions button{flex:1}.developer-write{border-color:#4d4b86;background:linear-gradient(135deg,#33305a,#263449)}
+@media(max-width:700px){.developer-card{margin:0 12px 10px;padding:11px}.app{border:0}.sidebar{background:#10121a}.chat{padding:11px}.messages{background-size:20px 20px}}
+@media(prefers-reduced-motion:reduce){.curtain{animation:none!important;transition:none!important}}
+
 </style>
 </head>
 <body>
@@ -49,6 +71,11 @@ button,input,textarea{font:inherit}button{cursor:pointer;color:inherit;border:0}
   <div class="brand"><div class="logo">U</div><div><div class="brand-name">UGR</div><div class="brand-sub">MESSENGER</div></div></div>
   <div class="search"><input id="searchChats" placeholder="Поиск чатов..." oninput="renderChats()"></div>
   <div class="toolbar"><button class="smallbtn" onclick="openFind()">＋ Найти пользователя</button><button class="smallbtn" onclick="openProfile()">Профиль</button><button class="smallbtn" onclick="openTop10()">🏆 TOP-10</button><button class="smallbtn" onclick="openNotifications()">🔔 Уведомления <span id="notificationBadge" class="badge-count hidden">0</span></button></div>
+  <section class="developer-card" aria-label="Разработчик UGR">
+   <div class="developer-card-head"><span class="dev-orb">✦</span><div><strong>UGR Developer</strong><small>Создатель мессенджера</small></div></div>
+   <div class="developer-identity">@ugr_creator <span class="verified-badge" title="Разработчик UGR">✓</span></div>
+   <div class="developer-actions"><button class="smallbtn" onclick="openDeveloperProfile()">Профиль</button><button class="smallbtn developer-write" onclick="openDeveloperChat()">Написать</button></div>
+  </section>
   <div class="section">ВАШИ ЧАТЫ</div><div class="chat-list" id="chatList"></div>
   <div class="sidebar-bottom"><div class="me-avatar" id="myAvatar">U</div><div class="me"><strong id="myName">Профиль</strong><small id="myEmail"></small></div><button class="icon-btn" onclick="signOut()" title="Выйти">↪</button></div>
  </aside>
@@ -123,7 +150,8 @@ function subscribeNotifications(){
  notificationChannel=sb.channel('ugr-notifications-'+currentUser.id)
   .on('postgres_changes',{event:'INSERT',schema:'public',table:'notifications',filter:'recipient_id=eq.'+currentUser.id},payload=>{
    unreadNotifications++;updateNotificationBadge();
-   toast('🔔 '+(payload.new.message||'Новое уведомление'));
+   const note=payload.new;
+   if(!activeChat||activeChat.id!==note.conversation_id||!$('app').classList.contains('show-chat'))toast('🔔 '+(note.message||'Новое уведомление'));
   }).subscribe();
 }
 function updateNotificationBadge(){const b=$('notificationBadge');b.textContent=unreadNotifications>99?'99+':unreadNotifications;b.classList.toggle('hidden',unreadNotifications===0)}
@@ -188,16 +216,25 @@ async function searchUsers(){
  data.forEach(p=>{const row=document.createElement('div');row.className='user-result';const av=document.createElement('div');av.className='avatar';renderAvatar(av,p);const name=document.createElement('div');name.className='grow';name.textContent='@'+p.username;name.style.cursor='pointer';name.onclick=()=>viewUserProfile(p.id);const btn=document.createElement('button');btn.className='smallbtn';btn.textContent='Профиль';btn.onclick=()=>viewUserProfile(p.id);const write=document.createElement('button');write.className='smallbtn';write.textContent='Написать';write.onclick=()=>startChat(p);row.append(av,name,btn,write);out.append(row)});
 }
 async function startChat(person){
+ if(!person?.id||person.id===currentUser?.id){toast('Нельзя открыть чат с этим пользователем');return}
  try{const {data,error}=await sb.rpc('create_or_get_direct_conversation',{other_user_id:person.id});if(error)throw error;
-  await loadChats();closeModal();const c=chats.find(x=>x.id===data);if(c)openChat(c);else{await loadChats();const found=chats.find(x=>x.other.id===person.id);if(found)openChat(found)}
+  const conversationId=typeof data==='string'?data:(Array.isArray(data)?(data[0]?.id||data[0]?.conversation_id):(data?.id||data?.conversation_id));
+  await loadChats();closeModal();let c=conversationId?chats.find(x=>x.id===conversationId):null;
+  if(!c)c=chats.find(x=>x.other?.id===person.id||x.other?.user_id===person.id);
+  if(c){openChat(c);return}
+  // If the RPC returned a conversation but the membership list did not refresh yet, retry once.
+  await new Promise(resolve=>setTimeout(resolve,250));await loadChats();
+  c=conversationId?chats.find(x=>x.id===conversationId):chats.find(x=>x.other?.id===person.id||x.other?.user_id===person.id);
+  if(c)openChat(c);else toast('Чат создан, но пока не отображается. Проверь создание участников чата в Supabase.');
  }catch(e){toast(e.message||'Не удалось создать чат')}
 }
 async function openChat(c){
  if(channel){await sb.removeChannel(channel);channel=null}
  activeChat=c;$('headName').textContent='@'+(c.other.username||'пользователь');$('headStatus').textContent='Личная переписка · нажми, чтобы открыть профиль';renderAvatar($('headAvatar'),c.other);$('headName').onclick=()=>viewUserProfile(c.other.id||c.other.user_id);$('headAvatar').onclick=()=>viewUserProfile(c.other.id||c.other.user_id);$('headName').style.cursor='pointer';$('headAvatar').style.cursor='pointer';
- $('messageInput').disabled=false;$('send').disabled=false;$('messages').innerHTML='<div class="empty">Загружаем сообщения…</div>';
- await loadMessages(c.id);await markIncomingRead(c.id);channel=sb.channel('ugr-chat-'+c.id).on('postgres_changes',{event:'INSERT',schema:'public',table:'messages',filter:'conversation_id=eq.'+c.id},payload=>{if(payload.new.sender_id!==currentUser.id){appendMessage(payload.new);markIncomingRead(c.id)}}).on('postgres_changes',{event:'UPDATE',schema:'public',table:'messages',filter:'conversation_id=eq.'+c.id},payload=>updateReadMark(payload.new)).subscribe();
- $('app').classList.add('show-chat');renderChats();
+ $('messageInput').disabled=false;$('send').disabled=false;$('messages').innerHTML='<div class="empty">Загружаем сообщения…</div>';$('app').classList.add('show-chat');renderChats();
+ // Subscribe first so messages arriving while history loads are not missed. appendMessage deduplicates IDs.
+ channel=sb.channel('ugr-chat-'+c.id).on('postgres_changes',{event:'INSERT',schema:'public',table:'messages',filter:'conversation_id=eq.'+c.id},payload=>{if(payload.new.sender_id!==currentUser.id){appendMessage(payload.new);markIncomingRead(c.id)}}).on('postgres_changes',{event:'UPDATE',schema:'public',table:'messages',filter:'conversation_id=eq.'+c.id},payload=>updateReadMark(payload.new)).subscribe();
+ await loadMessages(c.id);await markIncomingRead(c.id);
 }
 async function loadMessages(id){
  const {data,error}=await sb.from('messages').select('id,conversation_id,sender_id,body,created_at,read_at').eq('conversation_id',id).order('created_at',{ascending:true}).limit(500);
@@ -205,7 +242,7 @@ async function loadMessages(id){
  $('messages').innerHTML='';(data||[]).forEach(appendMessage);scrollMessages();
 }
 function appendMessage(m){
- if(!$('messages'))return;const b=document.createElement('div');b.className='bubble'+(m.sender_id===currentUser.id?' mine':'');b.dataset.id=m.id;
+ if(!$('messages')||!m?.id||document.querySelector('[data-id=\"'+m.id+'\"]'))return;const b=document.createElement('div');b.className='bubble'+(m.sender_id===currentUser.id?' mine':'');b.dataset.id=m.id;
  const body=document.createElement('div');body.textContent=m.body;const tm=document.createElement('div');tm.className='msg-time';tm.textContent=new Date(m.created_at).toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'});if(m.sender_id===currentUser.id){const mark=document.createElement('span');mark.className='readmark';mark.dataset.read='';mark.textContent=m.read_at?'✓✓':'✓';tm.append(mark)}b.append(body,tm);$('messages').append(b);scrollMessages();
 }
 function scrollMessages(){$('messages').scrollTop=$('messages').scrollHeight}
@@ -236,7 +273,7 @@ async function viewUserProfile(userId){
  try{const {data,error}=await sb.rpc('get_public_profile_details',{target_user_id:userId});if(error)throw error;const p=Array.isArray(data)?data[0]:data;if(!p){toast('Профиль недоступен');return}
  $('modalTitle').textContent='Профиль пользователя';const closed=!!p.profile_private;
  $('modalBody').innerHTML='<div class="profile-preview '+(closed?'closed':'opened')+'" id="publicCurtainPreview"><div class="profile-preview-main"><div class="profile-preview-avatar" id="publicPreviewAvatar"></div><div><strong id="publicPreviewNick"></strong><div class="muted" id="publicDisplayName"></div></div></div><div class="curtain left"></div><div class="curtain right"></div></div><div class="muted" id="publicBio" style="white-space:pre-wrap"></div><div class="profile-actions"><button class="primary" id="publicWriteButton">Написать</button></div>';
- $('modal').classList.remove('hidden');$('publicCurtainPreview').style.setProperty('--curtain-base',safeColor(p.curtain_color));$('publicPreviewNick').textContent='@'+(p.username||'пользователь');$('publicDisplayName').textContent=p.display_name||'';$('publicBio').textContent=p.bio||'';renderAvatar($('publicPreviewAvatar'),p);$('publicPreviewAvatar').classList.toggle('emoji-avatar',!p.avatar_url);$('publicWriteButton').onclick=()=>startChat({id:userId,...p});
+ $('modal').classList.remove('hidden');$('publicCurtainPreview').style.setProperty('--curtain-base',safeColor(p.curtain_color));$('publicPreviewNick').textContent='@'+(p.username||'пользователь');if(p.username==='ugr_creator')$('publicPreviewNick').insertAdjacentHTML('afterend',' <span class=\"verified-badge\" title=\"Разработчик UGR\">✓</span><div class=\"developer-role\">Разработчик UGR</div>');$('publicDisplayName').textContent=p.display_name||'';$('publicBio').textContent=p.bio||'';renderAvatar($('publicPreviewAvatar'),p);$('publicPreviewAvatar').classList.toggle('emoji-avatar',!p.avatar_url);$('publicWriteButton').onclick=()=>startChat({id:userId,...p});
  }catch(e){toast('Не удалось открыть профиль: '+(e.message||e))}
 }
 async function toggleCurtains(){
@@ -257,6 +294,7 @@ async function showDeveloperWelcomeIfNeeded(){
 }
 function toggleDeveloperWelcome(){const box=$('developerWelcome');const collapsed=box.classList.toggle('collapsed');const content=box.querySelector('.dev-content');if(content)content.classList.toggle('hidden',collapsed);const opener=box.querySelector('.dev-open');if(opener)opener.classList.toggle('hidden',!collapsed)}
 async function openDeveloperProfile(){await viewUserProfileByUsername('ugr_creator')}
+async function openDeveloperChat(){try{const {data,error}=await sb.rpc('search_profiles',{search_term:'ugr_creator'});if(error)throw error;const p=(data||[]).find(x=>x.username==='ugr_creator');if(!p){toast('Профиль разработчика пока не найден');return}await startChat(p)}catch(e){toast(e.message||'Не удалось открыть чат с разработчиком')}}
 async function viewUserProfileByUsername(username){try{const {data,error}=await sb.rpc('search_profiles',{search_term:username});if(error)throw error;const p=(data||[]).find(x=>x.username===username);if(!p){toast('Профиль @'+username+' пока не найден');return}await viewUserProfile(p.id)}catch(e){toast(e.message||'Не удалось открыть профиль разработчика')}}
 async function signOut(){if(sb)await sb.auth.signOut();localStorage.removeItem('ugr_session_hint');location.reload()}
 $('messageInput').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage()}});
