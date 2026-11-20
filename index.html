@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0d0d12">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="UGR Messenger">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" href="./icons/icon-192.png">
+<title>UGR MESSENGER</title>
+<style>
+:root{--bg:#0d0d12;--panel:#15151d;--panel2:#1c1c27;--line:#292936;--muted:#9292a5;--text:#f3f2f8;--accent:#9b78f5;--accent2:#7350d5;--green:#55d69a;--red:#ff707d}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.4 Inter,system-ui,-apple-system,Segoe UI,sans-serif;height:var(--app-height,100dvh);overflow:hidden}
+button,input,textarea{font:inherit}button{cursor:pointer;color:inherit;border:0}
+.app{height:var(--app-height,100dvh);display:grid;grid-template-columns:340px 1fr;max-width:1500px;margin:auto;background:var(--panel)}
+.sidebar{border-right:1px solid var(--line);display:flex;flex-direction:column;min-width:0}
+.brand{padding:22px 20px 16px;display:flex;align-items:center;gap:12px}.logo{height:42px;width:42px;border-radius:14px;background:linear-gradient(145deg,#b59aff,#6842cf);display:grid;place-items:center;font-weight:900;font-size:22px;color:white;box-shadow:0 7px 24px #8059dc44}.brand-name{font-weight:850;letter-spacing:2px;font-size:18px}.brand-sub{color:var(--muted);font-size:10px;letter-spacing:2.2px;margin-top:2px}
+.search{margin:0 16px 14px}.search input,.field{width:100%;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:12px 14px;color:var(--text);outline:none}.section{padding:5px 20px 9px;color:var(--muted);font-size:11px;font-weight:700;letter-spacing:1.5px}
+.chat-list{overflow:auto;padding:0 9px 14px}.chat{display:flex;gap:12px;padding:12px;border-radius:13px;align-items:center;cursor:pointer}.chat:hover,.chat.active{background:#29233a}.avatar{width:45px;height:45px;flex:none;border-radius:50%;display:grid;place-items:center;font-weight:800;background:linear-gradient(145deg,#9874ec,#5132a2);color:#e7dcff}.chat-info{min-width:0;flex:1}.chat-top{display:flex;justify-content:space-between;gap:8px}.chat-name{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.time{font-size:11px;color:var(--muted);white-space:nowrap}.preview{color:var(--muted);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:4px}
+.sidebar-bottom{margin-top:auto;padding:14px 18px;border-top:1px solid var(--line);display:flex;align-items:center;gap:10px}.me-avatar{width:34px;height:34px;border-radius:50%;background:#3b3155;display:grid;place-items:center;font-weight:800}.me{flex:1;min-width:0}.me small{display:block;color:var(--muted);font-size:11px}.icon-btn{background:transparent;color:var(--muted);font-size:20px;padding:7px;border-radius:9px}
+.main{display:flex;flex-direction:column;min-width:0;background:radial-gradient(ellipse at 80% 10%,#28203933,transparent 40%),#101016}.topbar{height:76px;border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 24px;gap:12px}.top-info{flex:1;min-width:0}.top-info small{display:block;color:var(--muted);font-size:12px;margin-top:3px}.messages{flex:1;overflow:auto;padding:24px max(14px,calc((100% - 800px)/2));display:flex;flex-direction:column;gap:12px}.bubble{max-width:min(82%,560px);padding:11px 14px;border:1px solid #30303d;background:#1b1b25;border-radius:15px 15px 15px 4px;align-self:flex-start;overflow-wrap:anywhere;white-space:pre-wrap}.bubble.mine{align-self:flex-end;background:#493477;border-color:#5c438e;border-radius:15px 15px 4px 15px}.readmark{color:#bca4ff;font-size:10px;margin-left:5px}.profilepic{width:45px;height:45px;border-radius:50%;object-fit:cover;background:#29233a;flex:none}.msgpic{width:26px;height:26px;border-radius:50%;object-fit:cover;vertical-align:middle;margin-right:6px}.msg-time{text-align:right;color:#aaa1bb;font-size:10px;margin-top:5px}.empty{margin:auto;text-align:center;color:var(--muted);max-width:300px}.composer-wrap{padding:13px 16px 18px;border-top:1px solid var(--line)}.composer{max-width:850px;margin:auto;display:flex;align-items:flex-end;gap:9px;background:#1b1b25;border:1px solid #333342;border-radius:16px;padding:8px}.composer textarea{resize:none;max-height:110px;min-height:42px;flex:1;background:transparent;color:var(--text);border:0;outline:0;padding:10px 5px}.send,.primary{border-radius:12px;background:var(--accent2);padding:11px 16px;font-weight:700}.send{width:42px;height:42px;padding:0;font-size:19px}.hint{text-align:center;color:#666678;font-size:10px;margin-top:8px}
+.screen{position:fixed;inset:0;background:linear-gradient(145deg,#14121d,#0d0d12);z-index:10;display:flex;align-items:center;justify-content:center;padding:22px;overflow:auto}.panel{width:min(100%,410px);background:#171620;border:1px solid var(--line);border-radius:22px;padding:25px;box-shadow:0 20px 70px #0008}.panel h1{margin:0 0 5px;letter-spacing:2px}.muted{color:var(--muted);font-size:13px}.form{display:grid;gap:12px;margin-top:20px}.field:focus{border-color:var(--accent)}.row{display:flex;gap:9px;align-items:center}.link{background:none;color:#c2aaff;padding:8px 0}.error{color:var(--red);font-size:12px;min-height:16px}.hidden{display:none!important}.toolbar{display:flex;gap:8px;padding:0 16px 12px}.smallbtn{background:#252332;border:1px solid #383348;border-radius:10px;padding:9px 12px;font-size:12px}.user-result{display:flex;align-items:center;gap:12px;padding:12px;border-bottom:1px solid var(--line)}.user-result .grow{flex:1}.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#302844;border:1px solid #69529a;padding:10px 15px;border-radius:12px;z-index:30;font-size:13px}
+.toolbar{flex-wrap:wrap}.toolbar .smallbtn{flex:1;white-space:nowrap}.badge-count{display:inline-grid;place-items:center;min-width:18px;height:18px;padding:0 5px;margin-left:4px;border-radius:99px;background:#e65b78;color:white;font-size:10px;font-weight:800}
+.profile-preview{position:relative;display:flex;align-items:center;gap:14px;min-height:90px;padding:16px;background:linear-gradient(120deg,#27213a,#191722);border:1px solid #39314c;border-radius:16px;overflow:hidden}
+.profile-preview-main{display:flex;align-items:center;gap:13px;min-width:0;position:relative;z-index:1}.profile-preview-avatar{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(145deg,#9874ec,#5132a2);font-weight:900;overflow:hidden;flex:none}.profile-preview-avatar img{width:100%;height:100%;object-fit:cover}.curtain{position:absolute;top:0;bottom:0;width:52%;z-index:3;pointer-events:none;transition:transform .85s cubic-bezier(.2,.8,.2,1);background:repeating-linear-gradient(90deg,#5a3b8d 0,#5a3b8d 7px,#744fa8 10px,#432b70 15px,#68469b 21px);box-shadow:inset -8px 0 14px #1a102b88,inset 8px 0 14px #c5a1ff22}.curtain.left{left:0;border-right:2px solid #b28ce8}.curtain.right{right:0;border-left:2px solid #b28ce8;transform:translateX(0)}.profile-preview.closed .curtain.left{transform:translateX(0)}.profile-preview.closed .curtain.right{transform:translateX(0)}.profile-preview.opened .curtain.left{transform:translateX(-102%)}.profile-preview.opened .curtain.right{transform:translateX(102%)}.curtain-toggle{width:100%;margin-top:9px}.xp-pill{display:inline-flex;align-items:center;gap:6px;background:#332849;color:#d9c5ff;border:1px solid #584477;border-radius:99px;padding:6px 10px;font-size:12px;font-weight:800}.rank-row{display:flex;align-items:center;gap:12px;padding:12px;border-bottom:1px solid var(--line)}.rank-num{width:28px;height:28px;display:grid;place-items:center;border-radius:9px;background:#2b2638;color:#d7c4ff;font-weight:800}.rank-name{flex:1;min-width:0;font-weight:700}.rank-xp{color:#c5a9ff;font-size:12px;font-weight:800}.notification-row{padding:12px;border-bottom:1px solid var(--line);cursor:pointer}.notification-row.unread{background:#272137}.notification-row small{display:block;color:var(--muted);margin-top:4px}
+@media(max-width:700px){.app{grid-template-columns:1fr}.sidebar{border-right:0}.main{display:none}.app.show-chat .sidebar{display:none}.app.show-chat .main{display:flex}.topbar{height:66px;padding:0 12px}.messages{padding:18px 12px}.bubble{max-width:88%}.composer-wrap{padding:9px 10px 13px}.brand{padding-top:18px}.mobile-back{display:block}.toolbar{padding-bottom:8px}}
+</style>
+</head>
+<body>
+<div id="authScreen" class="screen">
+ <div class="panel">
+  <div class="logo">U</div><h1 style="margin-top:15px">UGR MESSENGER</h1>
+  <div class="muted" id="authSubtitle">Твой личный мессенджер</div>
+  <div id="authForm" class="form hidden">
+   <input id="email" class="field" type="email" autocomplete="email" placeholder="Электронная почта">
+   <input id="password" class="field" type="password" autocomplete="current-password" placeholder="Пароль (минимум 8 символов)">
+   <input id="username" class="field hidden" autocomplete="username" placeholder="Уникальный ник (латиница, цифры, _)">
+   <button id="authSubmit" class="primary" onclick="submitAuth()">Войти</button>
+   <button class="link" id="authSwitch" onclick="toggleAuthMode()">Нет аккаунта? Зарегистрироваться</button>
+   <div id="authError" class="error"></div>
+  </div>
+ </div>
+</div>
+<div class="app hidden" id="app">
+ <aside class="sidebar">
+  <div class="brand"><div class="logo">U</div><div><div class="brand-name">UGR</div><div class="brand-sub">MESSENGER</div></div></div>
+  <div class="search"><input id="searchChats" placeholder="Поиск чатов..." oninput="renderChats()"></div>
+  <div class="toolbar"><button class="smallbtn" onclick="openFind()">＋ Найти пользователя</button><button class="smallbtn" onclick="openProfile()">Профиль</button><button class="smallbtn" onclick="openTop10()">🏆 TOP-10</button><button class="smallbtn" onclick="openNotifications()">🔔 Уведомления <span id="notificationBadge" class="badge-count hidden">0</span></button></div>
+  <div class="section">ВАШИ ЧАТЫ</div><div class="chat-list" id="chatList"></div>
+  <div class="sidebar-bottom"><div class="me-avatar" id="myAvatar">U</div><div class="me"><strong id="myName">Профиль</strong><small id="myEmail"></small></div><button class="icon-btn" onclick="signOut()" title="Выйти">↪</button></div>
+ </aside>
+ <main class="main">
+  <header class="topbar"><button class="icon-btn mobile-back" onclick="backToChats()">‹</button><div class="avatar" id="headAvatar">U</div><div class="top-info"><strong id="headName">UGR MESSENGER</strong><small id="headStatus">Выбери чат</small></div></header>
+  <section class="messages" id="messages"><div class="empty"><div style="font-size:42px">✦</div>Найди друга и начни общение</div></section>
+  <div class="composer-wrap"><div class="composer"><textarea id="messageInput" rows="1" placeholder="Написать сообщение..." disabled></textarea><button class="send" id="send" onclick="sendMessage()" disabled>➤</button></div><div class="hint">Enter — отправить · Shift + Enter — новая строка</div></div>
+ </main>
+</div>
+<div id="modal" class="screen hidden"><div class="panel"><div class="row"><h2 id="modalTitle" style="flex:1;margin:0">Поиск</h2><button class="icon-btn" onclick="closeModal()">✕</button></div><div id="modalBody" class="form"></div></div></div>
+<div id="toast" class="toast hidden"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL='https://wpdltxncbzcuwmidtzys.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY='sb_publishable_PNACWSzOfHMNLFB-1Lbj7g_kqLVvKnM';
+let sb=null, currentUser=null, profile=null, chats=[], activeChat=null, channel=null, authMode='login', notificationChannel=null, unreadNotifications=0, totalXp=0;
+const $=id=>document.getElementById(id);
+function toast(s){$('toast').textContent=s;$('toast').classList.remove('hidden');setTimeout(()=>$('toast').classList.add('hidden'),2600)}
+function initSupabase(){
+ if(!window.supabase){$('authSubtitle').textContent='Не удалось загрузить клиент Supabase. Проверь подключение к интернету и перезапусти приложение.';return}
+ sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
+ $('authForm').classList.remove('hidden');
+ sb.auth.getSession().then(({data,error})=>{if(error)console.warn(error);if(data.session)enterApp(data.session.user)});
+}
+function toggleAuthMode(){
+ authMode=authMode==='login'?'signup':'login';$('username').classList.toggle('hidden',authMode!=='signup');
+ $('authSubmit').textContent=authMode==='login'?'Войти':'Создать аккаунт';
+ $('authSwitch').textContent=authMode==='login'?'Нет аккаунта? Зарегистрироваться':'Уже есть аккаунт? Войти';$('authError').textContent='';
+}
+async function submitAuth(){
+ const email=$('email').value.trim(),password=$('password').value,username=$('username').value.trim().toLowerCase();
+ $('authError').textContent='';
+ try{
+  if(!email||password.length<8)throw Error('Укажи почту и пароль не короче 8 символов.');
+  if(authMode==='signup'){
+   if(!/^[a-z0-9_]{3,20}$/.test(username))throw Error('Ник: 3–20 символов, латиница, цифры или _.');
+   const {data,error}=await sb.auth.signUp({email,password,options:{data:{username}}});if(error)throw error;
+   if(data.session)enterApp(data.user);else $('authError').textContent='Аккаунт создан. Подтверди почту по ссылке из письма, затем войди.';
+  }else{const {data,error}=await sb.auth.signInWithPassword({email,password});if(error)throw error;enterApp(data.user)}
+ }catch(e){$('authError').textContent=e.message||'Ошибка авторизации'}
+}
+async function enterApp(user){
+ currentUser=user;$('authScreen').classList.add('hidden');$('app').classList.remove('hidden');
+ await loadProfile();await loadChats();await claimDailyXp();await loadUnreadNotifications();subscribeGlobalMessages();subscribeNotifications();
+ sb.auth.onAuthStateChange((event,session)=>{if(event==='SIGNED_OUT'){location.reload()}});
+}
+async function loadProfile(){
+ const {data,error}=await sb.from('profiles').select('*').eq('id',currentUser.id).maybeSingle();
+ if(error)throw error;profile=data;
+ if(!profile){toast('Профиль не найден. Проверь SQL-настройку в Supabase.');return}
+ $('myName').textContent='@'+profile.username;$('myEmail').textContent=currentUser.email||'';$('myAvatar').textContent=(profile.username||'U')[0].toUpperCase();if(profile.avatar_url){$('myAvatar').style.backgroundImage='url('+profile.avatar_url+')';$('myAvatar').style.backgroundSize='cover';$('myAvatar').textContent=''}
+}
+
+let globalChannel=null;
+function subscribeGlobalMessages(){
+ if(globalChannel)sb.removeChannel(globalChannel);
+ // The notification table is populated transactionally by a database trigger.
+ globalChannel=sb.channel('ugr-global-messages-'+currentUser.id)
+  .on('postgres_changes',{event:'INSERT',schema:'public',table:'messages'},async payload=>{
+   const m=payload.new;if(m.sender_id===currentUser.id)return;
+   const c=chats.find(x=>x.id===m.conversation_id);if(c){c.last=m;renderChats();}
+  }).subscribe();
+}
+function subscribeNotifications(){
+ if(notificationChannel)sb.removeChannel(notificationChannel);
+ notificationChannel=sb.channel('ugr-notifications-'+currentUser.id)
+  .on('postgres_changes',{event:'INSERT',schema:'public',table:'notifications',filter:'recipient_id=eq.'+currentUser.id},payload=>{
+   unreadNotifications++;updateNotificationBadge();
+   toast('🔔 '+(payload.new.message||'Новое уведомление'));
+  }).subscribe();
+}
+function updateNotificationBadge(){const b=$('notificationBadge');b.textContent=unreadNotifications>99?'99+':unreadNotifications;b.classList.toggle('hidden',unreadNotifications===0)}
+async function loadUnreadNotifications(){
+ const {count,error}=await sb.from('notifications').select('id',{count:'exact',head:true}).is('read_at',null);
+ if(!error){unreadNotifications=count||0;updateNotificationBadge();}
+}
+async function claimDailyXp(){
+ const {data,error}=await sb.rpc('claim_daily_xp');
+ if(error){console.warn('Daily XP:',error.message);return;}
+ const result=Array.isArray(data)?data[0]:data;if(!result)return;
+ totalXp=result.total_xp||0;
+ if(result.awarded===10)toast('⭐ Ежедневная награда: +10 XP!');
+}
+async function openTop10(){
+ $('modalTitle').textContent='🏆 TOP-10';$('modalBody').innerHTML='<div class="muted">Рейтинг всех зарегистрированных пользователей по накопленному XP. Только ники и очки — написать отсюда нельзя.</div><div id="top10List" class="form">Загружаем рейтинг…</div>';$('modal').classList.remove('hidden');
+ const {data,error}=await sb.rpc('get_top10');const out=$('top10List');if(error){out.textContent='Не удалось загрузить рейтинг: '+error.message;return;}
+ out.innerHTML='';(data||[]).forEach(item=>{const row=document.createElement('div');row.className='rank-row';const pos=document.createElement('div');pos.className='rank-num';pos.textContent=item.position;const name=document.createElement('div');name.className='rank-name';name.textContent=item.username;const xp=document.createElement('div');xp.className='rank-xp';xp.textContent=(item.xp||0)+' XP';row.append(pos,name,xp);out.append(row)});
+ if(!data?.length)out.textContent='Пока нет участников рейтинга.';
+}
+async function openNotifications(){
+ $('modalTitle').textContent='🔔 Уведомления';$('modalBody').innerHTML='<div id="notificationsList" class="form">Загружаем уведомления…</div>';$('modal').classList.remove('hidden');
+ const {data,error}=await sb.from('notifications').select('id,message,conversation_id,created_at,read_at').order('created_at',{ascending:false}).limit(50);const out=$('notificationsList');if(error){out.textContent='Не удалось загрузить уведомления: '+error.message;return;}
+ out.innerHTML='';if(!data?.length){out.textContent='Пока уведомлений нет.';return;}
+ for(const n of data){const row=document.createElement('div');row.className='notification-row'+(!n.read_at?' unread':'');const msg=document.createElement('div');msg.textContent=n.message;const time=document.createElement('small');time.textContent=new Date(n.created_at).toLocaleString('ru-RU');row.append(msg,time);row.onclick=async()=>{if(!n.read_at)await sb.from('notifications').update({read_at:new Date().toISOString()}).eq('id',n.id);await loadUnreadNotifications();if(n.conversation_id){await loadChats();const c=chats.find(x=>x.id===n.conversation_id);if(c){closeModal();openChat(c);}}else openNotifications();};out.append(row);}
+ await sb.from('notifications').update({read_at:new Date().toISOString()}).is('read_at',null);await loadUnreadNotifications();
+}
+async function loadChats(){
+ const {data,error}=await sb.from('conversation_members').select('conversation_id').eq('user_id',currentUser.id);
+ if(error){toast(error.message);return}
+ const ids=[...new Set((data||[]).map(x=>x.conversation_id))];chats=[];
+ for(const id of ids){
+  const {data:members}=await sb.from('conversation_members').select('user_id').eq('conversation_id',id);
+  const other=(members||[]).find(x=>x.user_id!==currentUser.id);if(!other)continue;
+  const {data:cards}=await sb.rpc('get_profile_cards',{target_user_ids:[other.user_id]});const p=cards?.[0];
+  const {data:last}=await sb.from('messages').select('body,created_at').eq('conversation_id',id).order('created_at',{ascending:false}).limit(1);
+  if(p)chats.push({id,other:p,last:last?.[0]||null});
+ }
+ chats.sort((a,b)=>new Date(b.last?.created_at||0)-new Date(a.last?.created_at||0));renderChats();
+}
+function renderChats(){
+ const q=$('searchChats').value.toLowerCase();$('chatList').innerHTML='';
+ chats.filter(c=>('@'+c.other.username).toLowerCase().includes(q)).forEach(c=>{
+  const el=document.createElement('div');el.className='chat'+(activeChat?.id===c.id?' active':'');
+  const av=c.other.avatar_url?document.createElement('img'):document.createElement('div');av.className=c.other.avatar_url?'profilepic':'avatar';if(c.other.avatar_url){av.src=c.other.avatar_url}else av.textContent=(c.other.username||'U')[0].toUpperCase();
+  const info=document.createElement('div');info.className='chat-info';
+  const top=document.createElement('div');top.className='chat-top';const n=document.createElement('span');n.className='chat-name';n.textContent=c.other.profile_private?'Закрытый профиль':'@'+(c.other.username||'пользователь');
+  const t=document.createElement('span');t.className='time';t.textContent=c.last?new Date(c.last.created_at).toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'}):'';
+  const p=document.createElement('div');p.className='preview';p.textContent=c.last?.body||'Начните переписку';
+  top.append(n,t);info.append(top,p);el.append(av,info);el.onclick=()=>openChat(c);$('chatList').append(el);
+ });
+}
+async function openFind(){
+ $('modalTitle').textContent='Найти пользователя';$('modalBody').innerHTML='<input id="findInput" class="field" placeholder="Введи ник без @"><button class="primary" id="findButton">Искать</button><div id="findResults"></div>';$('modal').classList.remove('hidden');
+ $('findButton').onclick=searchUsers;$('findInput').addEventListener('keydown',e=>{if(e.key==='Enter')searchUsers()});
+}
+async function searchUsers(){
+ const q=$('findInput').value.trim().replace(/^@/,'').toLowerCase();if(q.length<2){toast('Введи минимум 2 символа');return}
+ const {data,error}=await sb.rpc('search_profiles',{search_term:q});
+ const out=$('findResults');out.innerHTML='';if(error){out.textContent=error.message;return}
+ if(!data?.length){out.textContent='Никого не нашли';return}
+ data.forEach(p=>{const row=document.createElement('div');row.className='user-result';const av=document.createElement('div');av.className='avatar';av.textContent=(p.username||'U')[0].toUpperCase();const name=document.createElement('div');name.className='grow';name.textContent=p.profile_private?'Закрытый профиль':'@'+p.username;const btn=document.createElement('button');btn.className='smallbtn';btn.textContent='Написать';btn.onclick=()=>startChat(p);row.append(av,name,btn);out.append(row)});
+}
+async function startChat(person){
+ try{const {data,error}=await sb.rpc('create_or_get_direct_conversation',{other_user_id:person.id});if(error)throw error;
+  await loadChats();closeModal();const c=chats.find(x=>x.id===data);if(c)openChat(c);else{await loadChats();const found=chats.find(x=>x.other.id===person.id);if(found)openChat(found)}
+ }catch(e){toast(e.message||'Не удалось создать чат')}
+}
+async function openChat(c){
+ if(channel){await sb.removeChannel(channel);channel=null}
+ activeChat=c;$('headName').textContent=c.other.profile_private?'Закрытый профиль':'@'+(c.other.username||'пользователь');$('headStatus').textContent='Личная переписка';$('headAvatar').textContent=c.other.profile_private?'U':(c.other.username||'U')[0].toUpperCase();if(c.other.avatar_url){$('headAvatar').style.backgroundImage='url('+c.other.avatar_url+')';$('headAvatar').style.backgroundSize='cover';$('headAvatar').textContent=''}else{$('headAvatar').style.backgroundImage='';}
+ $('messageInput').disabled=false;$('send').disabled=false;$('messages').innerHTML='<div class="empty">Загружаем сообщения…</div>';
+ await loadMessages(c.id);await markIncomingRead(c.id);channel=sb.channel('ugr-chat-'+c.id).on('postgres_changes',{event:'INSERT',schema:'public',table:'messages',filter:'conversation_id=eq.'+c.id},payload=>{if(payload.new.sender_id!==currentUser.id){appendMessage(payload.new);markIncomingRead(c.id)}}).on('postgres_changes',{event:'UPDATE',schema:'public',table:'messages',filter:'conversation_id=eq.'+c.id},payload=>updateReadMark(payload.new)).subscribe();
+ $('app').classList.add('show-chat');renderChats();
+}
+async function loadMessages(id){
+ const {data,error}=await sb.from('messages').select('id,conversation_id,sender_id,body,created_at,read_at').eq('conversation_id',id).order('created_at',{ascending:true}).limit(500);
+ if(error){toast(error.message);return}
+ $('messages').innerHTML='';(data||[]).forEach(appendMessage);scrollMessages();
+}
+function appendMessage(m){
+ if(!$('messages'))return;const b=document.createElement('div');b.className='bubble'+(m.sender_id===currentUser.id?' mine':'');b.dataset.id=m.id;
+ const body=document.createElement('div');body.textContent=m.body;const tm=document.createElement('div');tm.className='msg-time';tm.textContent=new Date(m.created_at).toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'});if(m.sender_id===currentUser.id){const mark=document.createElement('span');mark.className='readmark';mark.dataset.read='';mark.textContent=m.read_at?'✓✓':'✓';tm.append(mark)}b.append(body,tm);$('messages').append(b);scrollMessages();
+}
+function scrollMessages(){$('messages').scrollTop=$('messages').scrollHeight}
+async function markIncomingRead(conversationId){const {error}=await sb.from('messages').update({read_at:new Date().toISOString()}).eq('conversation_id',conversationId).neq('sender_id',currentUser.id).is('read_at',null);if(error)console.warn('read receipt',error)}
+function updateReadMark(m){if(!m.read_at)return;const node=document.querySelector('[data-id=\"'+m.id+'\"] [data-read]');if(node)node.textContent='✓✓'}
+async function sendMessage(){
+ const input=$('messageInput'),body=input.value.trim();if(!body||!activeChat)return;
+ input.value='';input.style.height='42px';
+ const {data,error}=await sb.from('messages').insert({conversation_id:activeChat.id,sender_id:currentUser.id,body}).select().single();
+ if(error){input.value=body;toast(error.message);return}
+ appendMessage(data);const c=chats.find(x=>x.id===activeChat.id);if(c){c.last=data;renderChats()}
+}
+function backToChats(){$('app').classList.remove('show-chat')}
+function closeModal(){$('modal').classList.add('hidden')}
+async function openProfile(){
+ $('modalTitle').textContent='Мой профиль';
+ $('modalBody').innerHTML='<div class="profile-preview '+(profile?.profile_private?'closed':'opened')+'" id="curtainPreview"><div class="profile-preview-main"><div class="profile-preview-avatar" id="previewAvatar">U</div><div><strong id="previewNick">@username</strong><div class="muted">Предпросмотр профиля</div></div></div><div class="curtain left"></div><div class="curtain right"></div></div><button class="smallbtn curtain-toggle" id="curtainButton" onclick="toggleCurtains()">Закрыть профиль шторками</button><div class="row" style="justify-content:space-between;margin-top:8px"><span class="muted">Твои накопленные баллы</span><span class="xp-pill" id="profileXp">⭐ '+totalXp+' XP</span></div><div class="muted">Аватар из галереи (до 5 МБ)</div><input id="avatarFile" class="field" type="file" accept="image/*"><label class="muted">Уникальный ник</label><input id="profileUsername" class="field" maxlength="20"><label class="muted">Отображаемое имя</label><input id="displayName" class="field" maxlength="40"><label class="muted">О себе</label><textarea id="bio" class="field" maxlength="240" rows="3" placeholder="Расскажи немного о себе"></textarea><button class="primary" onclick="saveProfile()">Сохранить</button><button class="link" onclick="signOut()">Выйти из аккаунта</button>';
+ $('modal').classList.remove('hidden');$('profileUsername').value=profile?.username||'';$('displayName').value=profile?.display_name||'';$('bio').value=profile?.bio||'';
+ $('previewNick').textContent='@'+(profile?.username||'username');const av=$('previewAvatar');if(profile?.avatar_url){av.innerHTML='<img src="'+profile.avatar_url+'" alt="Аватар">'}else av.textContent=(profile?.username||'U')[0].toUpperCase();updateCurtainButton();
+}
+function updateCurtainButton(){const closed=!!profile?.profile_private;$('curtainButton').textContent=closed?'Открыть профиль':'Закрыть профиль шторками';$('curtainPreview').classList.toggle('closed',closed);$('curtainPreview').classList.toggle('opened',!closed)}
+async function toggleCurtains(){
+ const next=!profile.profile_private;const {data,error}=await sb.from('profiles').update({profile_private:next}).eq('id',currentUser.id).select().single();
+ if(error){toast('Не удалось изменить приватность: '+error.message);return;}profile=data;updateCurtainButton();toast(next?'Профиль закрыт шторками':'Профиль открыт');
+}
+async function saveProfile(){
+ const username=$('profileUsername').value.trim().toLowerCase(),display_name=$('displayName').value.trim(),bio=$('bio').value.trim();
+ if(!/^[a-z0-9_]{3,20}$/.test(username)){toast('Ник: 3–20 символов, латиница, цифры или _');return}
+ let avatar_url=profile.avatar_url;const file=$('avatarFile')?.files?.[0];if(file){if(file.size>5*1024*1024){toast('Фото должно быть меньше 5 МБ');return}const ext=(file.name.split('.').pop()||'jpg').replace(/[^a-z0-9]/gi,'').toLowerCase()||'jpg',path=currentUser.id+'/'+Date.now()+'.'+ext;const {error:upErr}=await sb.storage.from('ugr-avatars').upload(path,file,{upsert:true,contentType:file.type||'image/jpeg'});if(upErr){toast('Не удалось загрузить фото: '+upErr.message);return}const {data:urlData}=sb.storage.from('ugr-avatars').getPublicUrl(path);avatar_url=urlData.publicUrl;}const {data,error}=await sb.from('profiles').update({username,display_name,bio,avatar_url,profile_private:!!profile.profile_private}).eq('id',currentUser.id).select().single();
+ if(error){toast(error.message);return}profile=data;$('myName').textContent='@'+profile.username;if(profile.avatar_url){$('myAvatar').style.backgroundImage='url('+profile.avatar_url+')';$('myAvatar').style.backgroundSize='cover';$('myAvatar').textContent=''}closeModal();toast('Профиль сохранён');
+}
+async function signOut(){if(sb)await sb.auth.signOut();localStorage.removeItem('ugr_session_hint');location.reload()}
+$('messageInput').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage()}});
+$('messageInput').addEventListener('input',e=>{e.target.style.height='42px';e.target.style.height=Math.min(e.target.scrollHeight,110)+'px'});
+function syncAppViewport(){
+ const h=window.visualViewport?.height||window.innerHeight;
+ document.documentElement.style.setProperty('--app-height',Math.max(240,h)+'px');
+ if(activeChat)requestAnimationFrame(scrollMessages);
+}
+window.addEventListener('resize',syncAppViewport);
+if(window.visualViewport){window.visualViewport.addEventListener('resize',syncAppViewport);window.visualViewport.addEventListener('scroll',syncAppViewport)}
+$('messageInput').addEventListener('focus',()=>setTimeout(()=>{syncAppViewport();scrollMessages()},180));
+syncAppViewport();
+initSupabase();
+</script>
+<script>
+if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(err => console.warn('Service worker:', err)));
+}
+</script>
+</body>
+</html>
