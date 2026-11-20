@@ -49,6 +49,52 @@ body{background:radial-gradient(ellipse at 10% 0%,#22204244,transparent 38%),rad
 @media(max-width:700px){.developer-card{margin:0 12px 10px;padding:11px}.app{border:0}.sidebar{background:#10121a}.chat{padding:11px}.messages{background-size:20px 20px}}
 @media(prefers-reduced-motion:reduce){.curtain{animation:none!important;transition:none!important}}
 
+
+/* MOBILE PROFILE MODAL: prevent top clipping and allow full content scroll */
+#modal.screen{
+  align-items:flex-start;
+  justify-content:center;
+  padding: max(10px, env(safe-area-inset-top)) 12px max(12px, env(safe-area-inset-bottom));
+  overflow-x:hidden;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+}
+#modal .panel{
+  width:min(100%,410px);
+  max-height:calc(var(--app-height, 100dvh) - max(10px, env(safe-area-inset-top)) - max(12px, env(safe-area-inset-bottom)));
+  min-height:0;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+  margin:auto 0;
+}
+#modal .panel > .row{
+  flex:0 0 auto;
+  position:sticky;
+  top:0;
+  z-index:4;
+  background:linear-gradient(145deg,#171a24,#12141c);
+  padding-bottom:8px;
+}
+#modalBody.form{
+  min-height:0;
+  max-height:none;
+  overflow-y:auto;
+  overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior:contain;
+  touch-action:pan-y;
+  padding:4px 2px max(12px, env(safe-area-inset-bottom));
+}
+#modalBody .profile-preview{
+  flex-shrink:0;
+  min-height:90px;
+}
+@media(max-width:700px){
+  #modal.screen{padding-left:10px;padding-right:10px}
+  #modal .panel{max-height:calc(var(--app-height, 100dvh) - 16px - env(safe-area-inset-top) - env(safe-area-inset-bottom));}
+}
+
 </style>
 </head>
 <body>
