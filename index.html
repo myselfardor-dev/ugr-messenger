@@ -50,7 +50,38 @@ body{background:radial-gradient(ellipse at 10% 0%,#22204244,transparent 38%),rad
 @media(prefers-reduced-motion:reduce){.curtain{animation:none!important;transition:none!important}}
 
 
+
+/* UGR WORLD */
+#modal.world-modal .panel{width:min(100%,900px);background:radial-gradient(ellipse at 80% 0%,#34234b 0%,#17151f 42%,#101016 100%);border-color:#59416f}
+#modal.world-modal #modalBody{display:block}
+.world-hero{position:relative;overflow:hidden;border:1px solid #624a80;border-radius:20px;padding:22px;background:linear-gradient(120deg,#261b35,#15141e 70%);margin-bottom:14px}
+.world-kicker{font-size:10px;letter-spacing:3px;color:#c4a6ff;font-weight:800}
+.world-title{font-size:28px;font-weight:900;letter-spacing:1px;margin:5px 0}
+.world-sub{color:#b7adca;font-size:13px;max-width:560px}
+.world-wallet{display:inline-flex;align-items:center;gap:7px;background:#0f0e16;border:1px solid #66502c;color:#ffdc83;padding:8px 12px;border-radius:12px;margin-top:14px;font-weight:800}
+.world-section-title{font-weight:850;letter-spacing:1px;margin:18px 0 10px}
+.world-pet-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.world-pet-card{background:linear-gradient(145deg,#211d2b,#15141c);border:1px solid #373044;border-radius:16px;padding:13px;min-width:0}
+.world-pet-card.selected{border-color:#ae83ff;box-shadow:0 0 0 1px #ae83ff44,inset 0 0 28px #9b68ff12}
+.world-pet-emoji{height:78px;display:grid;place-items:center;font-size:48px;background:radial-gradient(circle,#49345f,#211a2c 70%,transparent);border-radius:12px;margin-bottom:9px}
+.world-pet-name{font-weight:800}.world-rarity{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:#c3a3ff;margin-top:3px}
+.world-pet-desc{font-size:11px;color:#a9a0b9;min-height:31px;margin-top:6px}
+.world-stat{margin:9px 0}.world-stat-head{display:flex;justify-content:space-between;font-size:11px;color:#c9c1d5;margin-bottom:4px}
+.world-stat-bar{height:7px;background:#302a3a;border-radius:20px;overflow:hidden}.world-stat-fill{height:100%;border-radius:20px;background:linear-gradient(90deg,#8156d6,#c19cff)}
+.world-actions{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-top:14px}
+.world-action{background:#292137;border:1px solid #57436f;border-radius:12px;padding:11px 5px;font-size:12px;font-weight:750}
+.world-action:disabled{opacity:.4;cursor:not-allowed}
+.world-primary{background:linear-gradient(135deg,#9364dc,#6037a9);border:1px solid #b18be9;border-radius:12px;padding:11px 15px;font-weight:800}
+.world-muted{font-size:12px;color:#a69db5}
+.world-pet-room{display:grid;grid-template-columns:160px 1fr;gap:14px;align-items:center;background:#17151f;border:1px solid #383044;border-radius:16px;padding:14px;margin-top:12px}
+.world-pet-avatar{height:145px;border-radius:14px;display:grid;place-items:center;font-size:76px;background:radial-gradient(circle at 50% 40%,#674b85,#2a2138 65%,#17151f);animation:worldFloat 3s ease-in-out infinite}
+@keyframes worldFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.world-pet-details{min-width:0}.world-level{color:#d4b8ff;font-weight:800;font-size:12px;margin:3px 0 10px}
+.world-empty{border:1px dashed #51435f;border-radius:16px;padding:20px;text-align:center;color:#b8afc7}
+@media(max-width:620px){.world-pet-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.world-actions{grid-template-columns:repeat(3,minmax(0,1fr))}.world-pet-room{grid-template-columns:1fr}.world-pet-avatar{height:125px}.world-title{font-size:23px}}
+@media(prefers-reduced-motion:reduce){.world-pet-avatar{animation:none}}
 /* MOBILE PROFILE MODAL: prevent top clipping and allow full content scroll */
+
 #modal.screen{
   align-items:flex-start;
   justify-content:center;
@@ -166,7 +197,7 @@ body{background:radial-gradient(ellipse at 10% 0%,#22204244,transparent 38%),rad
  <aside class="sidebar">
   <div class="brand"><div class="logo">U</div><div><div class="brand-name">UGR</div><div class="brand-sub">MESSENGER</div></div></div>
   <div class="search"><input id="searchChats" placeholder="Поиск чатов..." oninput="renderChats()"></div>
-  <div class="toolbar"><button class="smallbtn" onclick="openFind()">＋ Найти пользователя</button><button class="smallbtn" onclick="openProfile()">Профиль</button><button class="smallbtn" onclick="openTop10()">🏆 TOP-10</button><button class="smallbtn" onclick="openNotifications()">🔔 Уведомления <span id="notificationBadge" class="badge-count hidden">0</span></button></div>
+  <div class="toolbar"><button class="smallbtn" onclick="openFind()">＋ Найти пользователя</button><button class="smallbtn" onclick="openProfile()">Профиль</button><button class="smallbtn world-launch" onclick="openUgrWorld()">🌌 UGR WORLD</button><button class="smallbtn" onclick="openTop10()">🏆 TOP-10</button><button class="smallbtn" onclick="openNotifications()">🔔 Уведомления <span id="notificationBadge" class="badge-count hidden">0</span></button></div>
   <section class="developer-card" aria-label="Разработчик UGR">
    <div class="developer-card-head"><span class="dev-orb">✦</span><div><strong>UGR Developer</strong><small>Создатель мессенджера</small></div></div>
    <div class="developer-identity">@ugr_creator <span class="verified-badge" title="Разработчик UGR">✓</span></div>
@@ -466,6 +497,87 @@ function toggleDeveloperWelcome(){const box=$('developerWelcome');const collapse
 async function openDeveloperProfile(){await viewUserProfileByUsername('ugr_creator')}
 async function openDeveloperChat(){try{const {data,error}=await sb.rpc('search_profiles',{search_term:'ugr_creator'});if(error)throw error;const p=(data||[]).find(x=>x.username==='ugr_creator');if(!p){toast('Профиль разработчика пока не найден');return}await startChat(p)}catch(e){toast(e.message||'Не удалось открыть чат с разработчиком')}}
 async function viewUserProfileByUsername(username){try{const {data,error}=await sb.rpc('search_profiles',{search_term:username});if(error)throw error;const p=(data||[]).find(x=>x.username===username);if(!p){toast('Профиль @'+username+' пока не найден');return}await viewUserProfile(p.id)}catch(e){toast(e.message||'Не удалось открыть профиль разработчика')}}
+
+const UGR_PET_VISUALS={
+ shadow_cat:{emoji:'🐈‍⬛',name:'Теневой кот',rarity:'Обычный',color:'#9d8cb8'},
+ frost_fox:{emoji:'🦊',name:'Морозный лис',rarity:'Редкий',color:'#8bbde8'},
+ cyber_bunny:{emoji:'🐰',name:'Кибер-кролик',rarity:'Обычный',color:'#c58bff'},
+ magma_drake:{emoji:'🐲',name:'Магма-дракончик',rarity:'Эпический',color:'#f08b5a'},
+ moon_owl:{emoji:'🦉',name:'Лунная сова',rarity:'Редкий',color:'#9b9af2'},
+ void_slime:{emoji:'🟣',name:'Слайм Пустоты',rarity:'Легендарный',color:'#bd82ff'}
+};
+let ugrWorldPets=[],ugrWorldCatalog=[],ugrWorldWallet=0,ugrWorldChannel=null,ugrWorldBusy=false;
+function openUgrWorld(){
+ if(!currentUser){toast('Сначала войди в аккаунт');return}
+ $('modalTitle').textContent='🌌 UGR WORLD';
+ $('modalBody').innerHTML='<div class="world-empty">Загружаем мир UGR…</div>';
+ $('modal').classList.add('world-modal');$('modal').classList.remove('hidden');
+ loadUgrWorld();
+}
+function closeModal(){
+ $('modal').classList.add('hidden');$('modal').classList.remove('world-modal');
+}
+async function loadUgrWorld(){
+ try{
+  const [cat,pets,wallet]=await Promise.all([
+   sb.from('ugr_pet_catalog').select('pet_key,display_name,rarity,description,base_stats').eq('active',true).order('sort_order'),
+   sb.from('ugr_user_pets').select('*').order('created_at',{ascending:true}),
+   sb.from('ugr_coin_wallets').select('balance').eq('user_id',currentUser.id).maybeSingle()
+  ]);
+  if(cat.error)throw cat.error;if(pets.error)throw pets.error;
+  ugrWorldCatalog=cat.data||[];ugrWorldPets=pets.data||[];ugrWorldWallet=wallet.data?.balance||0;
+  renderUgrWorld();
+  if(ugrWorldChannel)sb.removeChannel(ugrWorldChannel);
+  ugrWorldChannel=sb.channel('ugr-world-user-'+currentUser.id)
+   .on('postgres_changes',{event:'*',schema:'public',table:'ugr_user_pets',filter:'user_id=eq.'+currentUser.id},()=>refreshUgrWorldData())
+   .on('postgres_changes',{event:'*',schema:'public',table:'ugr_coin_wallets',filter:'user_id=eq.'+currentUser.id},()=>refreshUgrWorldData())
+   .subscribe();
+ }catch(e){$('modalBody').innerHTML='<div class="world-empty">Не удалось загрузить UGR WORLD.<br><span class="world-muted">'+escapeHtml(e.message||'Ошибка базы данных')+'</span></div>'}
+}
+async function refreshUgrWorldData(){
+ const [pets,wallet]=await Promise.all([
+  sb.from('ugr_user_pets').select('*').order('created_at',{ascending:true}),
+  sb.from('ugr_coin_wallets').select('balance').eq('user_id',currentUser.id).maybeSingle()
+ ]);
+ if(!pets.error){ugrWorldPets=pets.data||[];ugrWorldWallet=wallet.data?.balance||0;renderUgrWorld()}
+}
+function escapeHtml(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function renderUgrWorld(){
+ const active=ugrWorldPets.find(p=>p.is_active)||ugrWorldPets[0];
+ const petCard=p=>{const v=UGR_PET_VISUALS[p.pet_key]||{emoji:'🐾',name:p.pet_key,rarity:p.rarity};return `<div class="world-pet-card ${p.id===active?.id?'selected':''}"><div class="world-pet-emoji">${v.emoji}</div><div class="world-pet-name">${escapeHtml(p.nickname)}</div><div class="world-rarity">${v.rarity} · ур. ${p.level}</div><button class="smallbtn" style="width:100%;margin-top:10px" onclick="ugrSelectActivePet('${p.id}')" ${p.is_active?'disabled':''}>${p.is_active?'Активен':'Выбрать'}</button></div>`};
+ let content=`<div class="world-hero"><div class="world-kicker">YOUR UNIVERSE · EST. UGR</div><div class="world-title">UGR WORLD</div><div class="world-sub">Твой отдельный мир внутри мессенджера. Заводи питомцев, развивай их и собирай свою коллекцию.</div><div class="world-wallet">🪙 ${ugrWorldWallet} UGR COINS</div></div>`;
+ if(active){
+  const v=UGR_PET_VISUALS[active.pet_key]||{emoji:'🐾',name:active.pet_key};
+  const stat=(label,key)=>`<div class="world-stat"><div class="world-stat-head"><span>${label}</span><b>${active[key]}%</b></div><div class="world-stat-bar"><div class="world-stat-fill" style="width:${active[key]}%"></div></div></div>`;
+  content+=`<div class="world-section-title">ТВОЙ ПИТОМЕЦ</div><div class="world-pet-room"><div class="world-pet-avatar">${v.emoji}</div><div class="world-pet-details"><div class="world-pet-name" style="font-size:21px">${escapeHtml(active.nickname)}</div><div class="world-level">✦ ${v.name} · Уровень ${active.level} · ${active.xp} XP</div>${stat('🍖 Сытость','hunger')}${stat('💧 Вода','thirst')}${stat('⚡ Энергия','energy')}${stat('💜 Настроение','mood')}<div class="world-muted">Опыт до следующего уровня: ${100-(active.xp%100)} XP</div></div></div><div class="world-actions"><button class="world-action" onclick="ugrPetAction('feed')">🍖 Кормить</button><button class="world-action" onclick="ugrPetAction('water')">💧 Вода</button><button class="world-action" onclick="ugrPetAction('play')">🎾 Играть</button><button class="world-action" onclick="ugrPetAction('pet')">💜 Гладить</button><button class="world-action" onclick="ugrPetAction('sleep')">🌙 Спать</button></div>`;
+  if(ugrWorldPets.length>1)content+=`<div class="world-section-title">МОЯ КОЛЛЕКЦИЯ</div><div class="world-pet-grid">${ugrWorldPets.map(petCard).join('')}</div>`;
+ }else{
+  content+=`<div class="world-section-title">ВЫБЕРИ ПЕРВОГО ПИТОМЦА</div><div class="world-muted" style="margin-bottom:12px">Первый питомец бесплатный. За достижение «Первый питомец» начислим 25 UGR COINS.</div><div class="world-pet-grid">${ugrWorldCatalog.map(c=>{const v=UGR_PET_VISUALS[c.pet_key]||{emoji:'🐾',rarity:c.rarity};return `<div class="world-pet-card"><div class="world-pet-emoji">${v.emoji}</div><div class="world-pet-name">${escapeHtml(c.display_name)}</div><div class="world-rarity">${v.rarity||c.rarity}</div><div class="world-pet-desc">${escapeHtml(c.description)}</div><button class="world-primary" style="width:100%;margin-top:9px" onclick="ugrChoosePet('${c.pet_key}')">Выбрать</button></div>`}).join('')}</div>`;
+ }
+ content+=`<div class="world-section-title">МИР UGR</div><div class="world-pet-grid"><div class="world-pet-card"><div class="world-pet-name">🎮 UGR GAMES</div><div class="world-pet-desc">Игровые режимы появятся следующим этапом</div></div><div class="world-pet-card"><div class="world-pet-name">🛍️ UGR SHOP</div><div class="world-pet-desc">Одежда, аксессуары и мебель — скоро</div></div><div class="world-pet-card"><div class="world-pet-name">🏆 ACHIEVEMENTS</div><div class="world-pet-desc">Здесь будут твои награды и прогресс</div></div></div>`;
+ $('modalBody').innerHTML=content;
+}
+async function ugrChoosePet(key){
+ const nick=prompt('Как назовём питомца? (1–24 символа)');if(nick===null)return;
+ if(!nick.trim()){toast('Введи имя питомца');return}
+ await ugrWorldRpc('ugr_adopt_first_pet',{p_pet_key:key,p_nickname:nick.trim()},'Питомец присоединился к тебе!');
+}
+async function ugrSelectActivePet(id){await ugrWorldRpc('ugr_set_active_pet',{p_pet_id:id},'Питомец выбран')}
+async function ugrPetAction(action){
+ const p=ugrWorldPets.find(x=>x.is_active)||ugrWorldPets[0];if(!p)return;
+ const names={feed:'Питомец покормлен 🍖',water:'Питомец попил воды 💧',play:'Вы отлично поиграли 🎾',pet:'Питомцу приятно 💜',sleep:'Питомец отдохнул 🌙'};
+ await ugrWorldRpc('ugr_interact_with_pet',{p_pet_id:p.id,p_action:action},names[action]);
+}
+async function ugrWorldRpc(fn,args,success){
+ if(ugrWorldBusy)return;ugrWorldBusy=true;
+ try{
+  const {data,error}=await sb.rpc(fn,args);if(error)throw error;
+  toast(success);
+  await refreshUgrWorldData();
+  if(data?.coins_awarded)toast(success+' · +'+data.coins_awarded+' UGR COINS');
+ }catch(e){toast(e.message||'Не удалось выполнить действие')}finally{ugrWorldBusy=false}
+}
+
 async function signOut(){if(sb)await sb.auth.signOut();localStorage.removeItem('ugr_session_hint');location.reload()}
 $('messageInput').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage()}});
 $('messageInput').addEventListener('input',e=>{e.target.style.height='42px';e.target.style.height=Math.min(e.target.scrollHeight,110)+'px';broadcastTyping(true);clearTimeout(typingTimer);typingTimer=setTimeout(()=>broadcastTyping(false),1500)});
