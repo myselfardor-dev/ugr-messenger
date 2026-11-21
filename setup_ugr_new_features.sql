@@ -66,3 +66,29 @@ $$;
 
 revoke all on function public.get_public_profile_details(uuid) from public;
 grant execute on function public.get_public_profile_details(uuid) to authenticated;
+
+-- UGR live chat enhancements: text/voice messages, reactions and presence-support fields.
+-- Safe additive migration; existing messages and profiles are preserved.
+alter table public.messages
+  add column if not exists message_type text not null default 'text',
+  add column if not exists media_url text,
+  add column if not exists reactions jsonb not null default '{}'::jsonb;
+
+-- Voice files bucket (public read URLs; uploads remain authenticated and user-folder scoped).
+insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+values ('ugr-voice','ugr-voice',true,15728640,array['audio/webm','audio/ogg','audio/mp4','audio/m4a','audio/mpeg','audio/wav'])
+on conflict (id) do update set public=true, file_size_limit=15728640;
+
+drop policy if exists "UGR voice upload own folder" on storage.objects;
+create policy "UGR voice upload own folder" on storage.objects
+for insert to authenticated
+with check (bucket_id='ugr-voice' and (storage.foldername(name))[1]=auth.uid()::text);
+drop policy if exists "UGR voice delete own folder" on storage.objects;
+create policy "UGR voice delete own folder" on storage.objects
+for delete to authenticated
+using (bucket_id='ugr-voice' and (storage.foldername(name))[1]=auth.uid()::text);
+
+-- Ensure messages updates/inserts are available to authenticated chat participants,
+-- subject to the existing messages RLS policies in the project.
+-- Realtime publication membership is intentionally left as-is; existing realtime
+-- subscription to messages should be enabled for the project.
