@@ -95,49 +95,6 @@ body{background:radial-gradient(ellipse at 10% 0%,#22204244,transparent 38%),rad
   #modal .panel{max-height:calc(var(--app-height, 100dvh) - 16px - env(safe-area-inset-top) - env(safe-area-inset-bottom));}
 }
 
-
-/* UGR 2.0 fresh VK-inspired social workspace */
-:root{--u-bg:#eef2f7;--u-panel:#fff;--u-text:#20242b;--u-muted:#818b99;--u-blue:#4779d1;--u-border:#e5eaf1}
-body{background:#e9edf3!important;color:var(--u-text)!important;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important}
-.app{background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;max-width:1360px!important;height:100dvh!important;margin:0 auto!important;padding:12px!important;gap:12px!important}
-.sidebar{background:#fff!important;color:#222!important;border:1px solid var(--u-border)!important;border-radius:14px!important;width:300px!important;box-shadow:0 2px 12px #24344a0a!important}
-.brand{padding:16px 18px!important}.logo{background:#4779d1!important;border-radius:12px!important}
-.brand-name{color:#27364a!important}.brand-sub{color:#8693a3!important}
-.search{margin:0 14px 10px!important}.search input{background:#f3f6fa!important;border:1px solid #e6ebf2!important;color:#222!important;border-radius:10px!important}
-.toolbar{display:flex!important;flex-wrap:wrap!important;margin:0 14px 10px!important}
-.toolbar .smallbtn{background:#f2f6fb!important;color:#426cae!important;border:1px solid #e4ebf4!important}
-.developer-card{background:#f5f8fc!important;border:1px solid #e6edf5!important;color:#34445a!important;margin:0 12px 10px!important;border-radius:12px!important}
-.developer-identity{color:#56759d!important}.developer-actions .smallbtn{background:#fff!important;color:#3e6ca9!important}
-.section{color:#8994a4!important;letter-spacing:.07em!important}
-.chat-list{padding:4px 8px!important}.chat{border-radius:10px!important;color:#273447!important}.chat.active,.chat:hover{background:#eef4fc!important}
-.sidebar-bottom{background:#f6f8fb!important;border-top:1px solid #e8edf3!important;border-radius:0 0 14px 14px!important;color:#273447!important}
-.main{background:#fff!important;border:1px solid var(--u-border)!important;border-radius:14px!important;overflow:hidden!important;box-shadow:0 2px 12px #24344a0a!important}
-.topbar{background:#fff!important;border-bottom:1px solid #e8edf3!important;color:#222!important}
-.messages{background:#f6f8fb!important}
-.message,.bubble{box-shadow:none!important}
-.composer-wrap{background:#fff!important;border-top:1px solid #e8edf3!important}
-.composer{background:#f3f6fa!important;border:1px solid #e5ebf2!important;border-radius:14px!important}
-.composer textarea{color:#283548!important}
-.send{background:#4779d1!important;border-radius:12px!important}
-.icon-btn{color:#6b7b91!important}
-.ugr-nav{margin:0 12px 12px;display:grid;grid-template-columns:1fr 1fr;gap:4px}
-.ugr-nav button{border:0;background:transparent;text-align:left;padding:9px 10px;border-radius:9px;color:#40536c;font-size:13px;cursor:pointer;transition:.15s}
-.ugr-nav button:hover,.ugr-nav button.active{background:#edf4fc;color:#4779d1}
-.ugr-nav button span{display:inline-block;width:22px}
-.ugr-nav .nav-wide{grid-column:1/-1}
-.ugr-workspace{position:absolute;inset:0;background:#f6f8fb;z-index:10;overflow:auto;padding:22px}
-.ugr-workspace-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
-.ugr-workspace-head h2{font-size:23px;margin:0;color:#25344a}
-.ugr-workspace-close{border:0;background:#fff;border:1px solid #e5eaf1;border-radius:10px;padding:9px 13px;cursor:pointer}
-.ugr-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
-.ugr-card{background:#fff;border:1px solid #e4eaf2;border-radius:14px;padding:17px;box-shadow:0 2px 10px #26384a06}
-.ugr-card h3{margin:0 0 9px;font-size:16px;color:#25344a}.ugr-card p{color:#778498;font-size:13px;line-height:1.5;margin:0}
-.ugr-feed-post{background:white;border:1px solid #e5eaf1;border-radius:14px;padding:18px;margin-bottom:14px;max-width:680px}
-.ugr-feed-post textarea{width:100%;border:1px solid #e5eaf1;border-radius:12px;padding:12px;resize:vertical;font:inherit}
-.ugr-feed-post button{background:#4779d1;color:white;border:0;border-radius:9px;padding:9px 13px;margin-top:10px;cursor:pointer}
-.ugr-empty{padding:40px;text-align:center;color:#8a96a7}
-@media(max-width:900px){.app{padding:0!important;gap:0!important}.sidebar{width:260px!important}.ugr-nav{grid-template-columns:1fr}.ugr-workspace{padding:14px}}
-@media(max-width:700px){.ugr-nav{grid-template-columns:repeat(2,1fr)}.sidebar{width:100%!important}.main{border-radius:0!important}}
 </style>
 </head>
 <body>
@@ -160,18 +117,6 @@ body{background:#e9edf3!important;color:var(--u-text)!important;font-family:Inte
   <div class="brand"><div class="logo">U</div><div><div class="brand-name">UGR</div><div class="brand-sub">MESSENGER</div></div></div>
   <div class="search"><input id="searchChats" placeholder="Поиск чатов..." oninput="renderChats()"></div>
   <div class="toolbar"><button class="smallbtn" onclick="openFind()">＋ Найти пользователя</button><button class="smallbtn" onclick="openProfile()">Профиль</button><button class="smallbtn" onclick="openTop10()">🏆 TOP-10</button><button class="smallbtn" onclick="openNotifications()">🔔 Уведомления <span id="notificationBadge" class="badge-count hidden">0</span></button></div>
-  <nav class="ugr-nav" aria-label="UGR разделы">
-   <button onclick="UGRPage('news')"><span>📰</span> Новости</button>
-   <button onclick="UGRPage('messenger')"><span>💬</span> Мессенджер</button>
-   <button onclick="UGRPage('friends')"><span>👥</span> Друзья</button>
-   <button onclick="UGRPage('communities')"><span>🏘️</span> Сообщества</button>
-   <button onclick="UGRPage('photos')"><span>🖼️</span> Фото</button>
-   <button onclick="UGRPage('videos')"><span>▶️</span> Видео</button>
-   <button onclick="UGRPage('music')"><span>🎵</span> Музыка</button>
-   <button onclick="UGRPage('saved')"><span>🔖</span> Сохранённое</button>
-   <button onclick="UGRPage('services')"><span>🧰</span> Сервисы</button>
-   <button onclick="UGRPage('settings')"><span>⚙️</span> Настройки</button>
-  </nav>
   <section class="developer-card" aria-label="Разработчик UGR">
    <div class="developer-card-head"><span class="dev-orb">✦</span><div><strong>UGR Developer</strong><small>Создатель мессенджера</small></div></div>
    <div class="developer-identity">@ugr_creator <span class="verified-badge" title="Разработчик UGR">✓</span></div>
@@ -180,8 +125,7 @@ body{background:#e9edf3!important;color:var(--u-text)!important;font-family:Inte
   <div class="section">ВАШИ ЧАТЫ</div><div class="chat-list" id="chatList"></div>
   <div class="sidebar-bottom"><div class="me-avatar" id="myAvatar">U</div><div class="me"><strong id="myName">Профиль</strong><small id="myEmail"></small></div><button class="icon-btn" onclick="signOut()" title="Выйти">↪</button></div>
  </aside>
- <main class="main" style="position:relative">
-  <div id="ugrWorkspace" class="ugr-workspace hidden"></div>
+ <main class="main">
   <header class="topbar"><button class="icon-btn mobile-back" onclick="backToChats()">‹</button><div class="avatar" id="headAvatar">U</div><div class="top-info"><strong id="headName">UGR MESSENGER</strong><small id="headStatus">Выбери чат</small></div></header>
   <section class="messages" id="messages"><div class="empty"><div style="font-size:42px">✦</div>Найди друга и начни общение</div></section>
   <div class="composer-wrap"><div class="composer"><textarea id="messageInput" rows="1" placeholder="Написать сообщение..." disabled></textarea><button class="send" id="send" onclick="sendMessage()" disabled>➤</button></div><div class="hint">Enter — отправить · Shift + Enter — новая строка</div></div>
@@ -416,20 +360,6 @@ initSupabase();
 if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
   window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(err => console.warn('Service worker:', err)));
 }
-</script>
-
-<script>
-(function(){
-const pageData={news:['Новости','Лента публикаций, обновлений и заметок UGR.'],friends:['Друзья','Поиск людей, заявки и список контактов.'],communities:['Сообщества','Группы, обсуждения, события и публикации.'],photos:['Фото','Альбомы и фотографии профиля.'],videos:['Видео','Видеозаписи и подборки.'],music:['Музыка','Музыкальная библиотека и плейлисты.'],saved:['Сохранённое','Закладки, сохранённые публикации и материалы.'],services:['Сервисы','Инструменты, мини-приложения и дополнительные разделы.'],settings:['Настройки','Настройки интерфейса, аккаунта и приватности.']};
-window.UGRPage=function(page){const area=document.getElementById('ugrWorkspace');if(!area)return;if(page==='messenger'){area.classList.add('hidden');return}const data=pageData[page]||['UGR',''];area.classList.remove('hidden');let content='';
-if(page==='news')content=`<div class="ugr-feed-post"><h3>Создать публикацию</h3><textarea id="ugrPostText" rows="3" placeholder="Что нового?"></textarea><button onclick="UGRPublish()">Опубликовать локально</button></div><div id="ugrFeed"></div>`;
-else if(page==='friends')content=`<div class="ugr-card"><h3>Найти пользователя</h3><p>Используй встроенный поиск пользователей в существующем UGR.</p><button onclick="UGRBackMessenger()">Вернуться в переписки</button></div>`;
-else content=`<div class="ugr-cards">${[1,2,3].map(()=>`<div class="ugr-card"><h3>${data[0]}</h3><p>${data[1]}<br><br>Раздел подготовлен как часть новой структуры интерфейса. Для полноценного наполнения потребуется подключение соответствующих таблиц и API.</p></div>`).join('')}</div>`;
-area.innerHTML=`<div class="ugr-workspace-head"><h2>${data[0]}</h2><button class="ugr-workspace-close" onclick="UGRBackMessenger()">← В переписки</button></div>${content}`;if(page==='news')UGRRenderFeed()};
-window.UGRBackMessenger=function(){document.getElementById('ugrWorkspace')?.classList.add('hidden')};
-window.UGRPublish=function(){let t=document.getElementById('ugrPostText')?.value.trim();if(!t)return;let arr=JSON.parse(localStorage.getItem('ugr_proto_feed')||'[]');arr.unshift({text:t,date:new Date().toLocaleString()});localStorage.setItem('ugr_proto_feed',JSON.stringify(arr));document.getElementById('ugrPostText').value='';UGRRenderFeed()};
-window.UGRRenderFeed=function(){let el=document.getElementById('ugrFeed');if(!el)return;let arr=JSON.parse(localStorage.getItem('ugr_proto_feed')||'[]');el.innerHTML=arr.map(p=>`<article class="ugr-feed-post"><small>${p.date}</small><p>${String(p.text).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}</p></article>`).join('')||'<div class="ugr-empty">Публикаций пока нет</div>'};
-})();
 </script>
 </body>
 </html>
