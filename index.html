@@ -104,7 +104,7 @@ body{background:radial-gradient(ellipse at 10% 0%,#22204244,transparent 38%),rad
 .bubble:not(.mine){background:linear-gradient(135deg,#493509f2,#2c210bf2 58%,#201a0df2);border-color:#e5b83f99;border-radius:18px 18px 18px 5px;box-shadow:0 6px 20px #b88a1c22,inset 0 1px #fff5c410;color:#fff5d7}
 .bubble:not(.mine) .msg-time{color:#e4c978}
 .bubble:not(.mine) .voice-card{background:linear-gradient(120deg,#3a2b0beF,#211a0deF 60%,#30240beF);border-color:#d5a52d99}
-.bubble:not(.mine) .voice-play{background:linear-gradient(135deg,#e9c34d,#a97812);box-shadow:0 0 15px #d5a52d44}
+.bubble:not(.mine) .voice-play{background:linear-gradient(135deg,#e9c34d,#a97812);box-shadow:0 0 15px #d5a52d44}.bubble:not(.mine) .voice-wave span{background:linear-gradient(180deg,#fff0a8,#d9a52a)!important;opacity:.9}.bubble:not(.mine) .voice-wave span.played{background:linear-gradient(180deg,#ffe47a,#bd8615)!important;opacity:1}
 .bubble.mine:after{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(120deg,#a300ff08,#ffd00008)}.bubble.selected{outline:2px solid #a46cff;box-shadow:0 0 0 4px #a46cff22}.message-tools{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}.reaction-chip{background:#17121f;border:1px solid #69429a66;border-radius:999px;padding:4px 9px;font-size:13px}.reaction-chip.mine{border-color:#c06aff;background:#42205f}.reaction-picker{padding:7px;background:#0f0c16eF;border:1px solid #a24aff66;border-radius:16px;box-shadow:0 8px 22px #0008}.reaction-picker .reaction-chip{font-size:22px;padding:4px 7px}.voice-card{display:flex;align-items:center;gap:10px;min-width:min(320px,70vw);max-width:440px;padding:8px 10px;border-radius:16px;background:linear-gradient(120deg,#190b2beF,#101017eF 60%,#21180beF);border:1px solid #9d39e977;box-shadow:inset 0 1px #ffffff10}.voice-play{width:42px;height:42px;flex:none;border-radius:50%;background:linear-gradient(135deg,#ae35ff,#5815c7);box-shadow:0 0 15px #8a22d944;font-size:17px}.voice-mid{flex:1;min-width:0}.voice-wave{height:30px;display:flex;align-items:center;gap:2px;cursor:pointer;touch-action:pan-y}.voice-wave span{display:block;width:3px;min-height:4px;border-radius:4px;background:linear-gradient(#d6a8ff,#a044f5);opacity:.75}.voice-wave span.played{background:linear-gradient(#ffdb64,#b44cff);opacity:1}.voice-time{font-size:11px;color:#c4b7d4;margin-top:3px}.voice-card audio{display:none}.bubble .msg-time{color:#a99bb8;font-size:10px;margin-top:6px}.readmark{display:inline-block;margin-left:6px;font-size:10px;white-space:nowrap;color:#e6d0ff}.bubble:not(.mine) .readmark{color:#ffe49a}.msg-content{position:relative;z-index:1}.chat-selection-bar{display:flex;align-items:center;justify-content:space-around;gap:4px;padding:9px 6px;background:#120d1beF;border-top:1px solid #8b39bd66;backdrop-filter:blur(12px)}.chat-selection-bar button{background:#21172f;border:1px solid #583777;border-radius:10px;padding:8px 10px;font-size:12px}.chat-selection-bar .selection-count{font-size:12px;color:#d8c4ff;padding:0 6px}.bubble .reaction-picker{position:relative;z-index:3}
 
 
@@ -187,7 +187,7 @@ body{background:radial-gradient(ellipse at 10% 0%,#22204244,transparent 38%),rad
 <script>
 const SUPABASE_URL='https://wpdltxncbzcuwmidtzys.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY='sb_publishable_PNACWSzOfHMNLFB-1Lbj7g_kqLVvKnM';
-let sb=null, currentUser=null, profile=null, chats=[], activeChat=null, channel=null, authMode='login', notificationChannel=null, unreadNotifications=0, totalXp=0, selectedAvatarEmoji='🙂', selectedAvatarPhoto=false, selectedCurtainColor='#5a3b8d', developerWelcomeExpanded=false, presenceChannel=null, onlineUsers=new Set(), typingTimer=null, mediaRecorder=null, voiceChunks=[], isRecordingVoice=false;
+let sb=null, currentUser=null, profile=null, chats=[], activeChat=null, channel=null, receiptPoll=null, authMode='login', notificationChannel=null, unreadNotifications=0, totalXp=0, selectedAvatarEmoji='🙂', selectedAvatarPhoto=false, selectedCurtainColor='#5a3b8d', developerWelcomeExpanded=false, presenceChannel=null, onlineUsers=new Set(), typingTimer=null, mediaRecorder=null, voiceChunks=[], isRecordingVoice=false;
 const $=id=>document.getElementById(id);
 function toast(s){$('toast').textContent=s;$('toast').classList.remove('hidden');setTimeout(()=>$('toast').classList.add('hidden'),2600)}
 function initSupabase(){
@@ -239,7 +239,9 @@ function subscribeGlobalMessages(){
    const m=payload.new;if(m.sender_id===currentUser.id)return;
    sb.from('messages').update({delivered_at:new Date().toISOString()}).eq('id',m.id).is('delivered_at',null).then(({error})=>{if(error)console.warn('delivery receipt',error)});
    const c=chats.find(x=>x.id===m.conversation_id);if(c){c.last=m;renderChats();}
-  }).subscribe();
+  })
+  .on('postgres_changes',{event:'UPDATE',schema:'public',table:'messages',filter:'sender_id=eq.'+currentUser.id},payload=>{if(activeChat?.id===payload.new.conversation_id)refreshMessage(payload.new);})
+  .subscribe();
  if(presenceChannel)sb.removeChannel(presenceChannel);
  presenceChannel=sb.channel('ugr-presence',{config:{presence:{key:currentUser.id}}});
  presenceChannel.on('presence',{event:'sync'},()=>{onlineUsers=new Set(Object.keys(presenceChannel.presenceState()));renderChats();if(activeChat)refreshChatStatus();});
@@ -332,15 +334,16 @@ async function startChat(person){
  }catch(e){toast(e.message||'Не удалось создать чат')}
 }
 async function openChat(c){
+ if(receiptPoll){clearInterval(receiptPoll);receiptPoll=null}
  if(channel){await sb.removeChannel(channel);channel=null}
  clearSelection();activeChat=c;$('headName').textContent='@'+(c.other.username||'пользователь');$('headStatus').textContent=isUserOnline(c.other.id||c.other.user_id)?'В сети':'Не в сети';renderAvatar($('headAvatar'),c.other);$('headName').onclick=()=>viewUserProfile(c.other.id||c.other.user_id);$('headAvatar').onclick=()=>viewUserProfile(c.other.id||c.other.user_id);$('headName').style.cursor='pointer';$('headAvatar').style.cursor='pointer';$('headAvatar').classList.add('profile-card-open');
  $('messageInput').disabled=false;$('send').disabled=false;$('recordVoice').disabled=false;$('messages').innerHTML='<div class="empty">Загружаем сообщения…</div>';$('app').classList.add('show-chat');renderChats();
  channel=sb.channel('ugr-chat-'+c.id,{config:{broadcast:{self:false},presence:{key:currentUser.id}}})
   .on('postgres_changes',{event:'INSERT',schema:'public',table:'messages',filter:'conversation_id=eq.'+c.id},payload=>{if(payload.new.sender_id!==currentUser.id){appendMessage(payload.new);markIncomingRead(c.id)}})
-  .on('postgres_changes',{event:'UPDATE',schema:'public',table:'messages',filter:'conversation_id=eq.'+c.id},payload=>{updateReadMark(payload.new);refreshMessage(payload.new)})
+  .on('postgres_changes',{event:'UPDATE',schema:'public',table:'messages',filter:'conversation_id=eq.'+c.id},payload=>{refreshMessage(payload.new)})
   .on('broadcast',{event:'typing'},payload=>{if(payload.payload?.user_id!==currentUser.id){$('headStatus').textContent=payload.payload?.typing?'Печатает…':(isUserOnline(c.other.id||c.other.user_id)?'В сети':'Не в сети')}})
   .subscribe();
- await loadMessages(c.id);await markIncomingRead(c.id);refreshChatStatus();
+ await loadMessages(c.id);await markIncomingRead(c.id);refreshChatStatus();await refreshOwnMessageReceipts(c.id);receiptPoll=setInterval(()=>refreshOwnMessageReceipts(c.id),2200);
 }
 function refreshChatStatus(){if(!activeChat)return;const id=activeChat.other.id||activeChat.other.user_id;$('headStatus').textContent=isUserOnline(id)?'В сети':'Не в сети'}
 function broadcastTyping(value){if(!channel||!activeChat)return;channel.send({type:'broadcast',event:'typing',payload:{user_id:currentUser.id,typing:value}})}
@@ -354,21 +357,47 @@ function appendMessage(m){
  if(!$('messages')||!m?.id||document.querySelector('[data-id="'+m.id+'"]'))return;const b=document.createElement('div');b.className='bubble'+(m.sender_id===currentUser.id?' mine':'');b.dataset.id=m.id;
  const body=document.createElement('div');body.className='msg-content';if(m.message_type==='voice'&&m.media_url){body.append(buildVoicePlayer(m.media_url,m.id));}else body.textContent=m.body||'';
  const tm=document.createElement('div');tm.className='msg-time';tm.textContent=new Date(m.created_at).toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'});if(m.sender_id===currentUser.id){const mark=document.createElement('span');mark.className='readmark';mark.dataset.read='';mark.textContent=m.read_at?'🙉 прочитано':m.delivered_at?'🙊 доставлено':'🙈 отправлено';tm.append(mark)}b.append(body,tm);
- const rx=document.createElement('div');rx.className='message-tools reactions';const current=m.reactions||{};Object.entries(current).forEach(([e,users])=>{if(Array.isArray(users)&&users.length){const r=document.createElement('button');r.className='reaction-chip'+(users.includes(currentUser.id)?' mine':'');r.textContent=e+' '+users.length;r.onclick=(ev)=>{ev.stopPropagation();toggleReaction(m.id,e)};rx.append(r)}});if(rx.childElementCount)b.append(rx);
+ const rx=document.createElement('div');rx.className='message-tools reactions';const current=normalizeReactions(m.reactions);Object.entries(current).forEach(([e,users])=>{if(users.length){const r=document.createElement('button');r.type='button';r.className='reaction-chip'+(users.includes(currentUser.id)?' mine':'');r.textContent=e+' '+users.length;r.onclick=(ev)=>{ev.stopPropagation();toggleReaction(m.id,e)};rx.append(r)}});if(rx.childElementCount)b.append(rx);
  b.addEventListener('contextmenu',e=>{e.preventDefault();selectMessage(m.id)});b.addEventListener('click',e=>{if(e.target.closest('button')||e.target.closest('.voice-wave'))return;if(selectedMessageIds.size)toggleMessageSelection(m.id)});b.addEventListener('touchstart',()=>{longPressTimer=setTimeout(()=>selectMessage(m.id),520)},{passive:true});b.addEventListener('touchend',()=>clearTimeout(longPressTimer));b.addEventListener('touchmove',()=>clearTimeout(longPressTimer));
  $('messages').append(b);scrollMessages();
 }
 function buildVoicePlayer(url,id){const card=document.createElement('div');card.className='voice-card';const audio=document.createElement('audio');audio.src=url;audio.preload='metadata';const play=document.createElement('button');play.type='button';play.className='voice-play';play.textContent='▶';const mid=document.createElement('div');mid.className='voice-mid';const wave=document.createElement('div');wave.className='voice-wave';const heights=[8,15,22,12,27,18,24,11,19,28,16,22,10,25,14,20,29,13,23,17,8,21,12,26,18,24,10,16,28,13,19,7,23,14,27,11,20,16,25,9,18,22,12,29];heights.forEach(h=>{const bar=document.createElement('span');bar.style.height=h+'px';wave.append(bar)});const time=document.createElement('div');time.className='voice-time';time.textContent='0:00 / 0:00';mid.append(wave,time);card.append(play,mid,audio);const fmt=n=>{if(!isFinite(n))return'0:00';return Math.floor(n/60)+':'+String(Math.floor(n%60)).padStart(2,'0')};function draw(){time.textContent=fmt(audio.currentTime)+' / '+fmt(audio.duration);const pct=audio.duration?audio.currentTime/audio.duration:0;wave.querySelectorAll('span').forEach((bar,i)=>bar.classList.toggle('played',i/ heights.length<pct))}audio.addEventListener('loadedmetadata',draw);audio.addEventListener('timeupdate',draw);audio.addEventListener('ended',()=>play.textContent='▶');play.onclick=()=>{if(audio.paused){document.querySelectorAll('.voice-card audio').forEach(a=>{if(a!==audio)a.pause()});audio.play().then(()=>play.textContent='Ⅱ').catch(()=>toast('Не удалось воспроизвести аудио'));}else{audio.pause();play.textContent='▶'}};wave.onclick=e=>{if(!audio.duration)return;const r=wave.getBoundingClientRect();audio.currentTime=Math.max(0,Math.min(audio.duration,(e.clientX-r.left)/r.width*audio.duration))};return card}
-function refreshMessage(m){const old=document.querySelector('[data-id="'+m.id+'"]');if(!old)return;old.remove();selectedMessageIds.delete(m.id);appendMessage(m)}
+function refreshMessage(m){const old=document.querySelector('[data-id="'+m.id+'"]');if(!old)return;const list=$('messages'),next=old.nextSibling,scrollTop=list.scrollTop,atBottom=list.scrollHeight-list.clientHeight-scrollTop<50;old.remove();selectedMessageIds.delete(m.id);appendMessage(m);const fresh=document.querySelector('[data-id="'+m.id+'"]');if(fresh&&next&&next.parentNode===list)list.insertBefore(fresh,next);if(!atBottom)list.scrollTop=scrollTop}
 function chooseReaction(id){const bubble=document.querySelector('[data-id="'+id+'"]');if(!bubble)return;let picker=bubble.querySelector('.reaction-picker');if(picker){picker.remove();return}picker=document.createElement('div');picker.className='reaction-picker message-tools';['❤️','🔥','👍','👎','😮','😂','😭','👏','🎉','🤡','💀','🥰','🤔','🙏','🤯','✨','🫡','🫶'].forEach(e=>{const b=document.createElement('button');b.className='reaction-chip';b.type='button';b.textContent=e;b.onclick=()=>{picker.remove();toggleReaction(id,e)};picker.append(b)});bubble.append(picker)}
 function selectMessage(id){selectedMessageIds.add(id);document.querySelector('[data-id="'+id+'"]').classList.add('selected');showSelectionBar();chooseReaction(id)}
 function toggleMessageSelection(id){if(selectedMessageIds.has(id)){selectedMessageIds.delete(id);document.querySelector('[data-id="'+id+'"]').classList.remove('selected')}else{selectMessage(id)}showSelectionBar()}
 function showSelectionBar(){let bar=$('chatSelectionBar');if(!bar){bar=document.createElement('div');bar.id='chatSelectionBar';bar.className='chat-selection-bar';$('composer-wrap')?.before(bar)}bar.innerHTML='';if(!selectedMessageIds.size){bar.remove();return}const count=document.createElement('span');count.className='selection-count';count.textContent='Выбрано: '+selectedMessageIds.size;bar.append(count);[['✕','Отмена',()=>clearSelection()],['😊','Реакция',()=>{if(selectedMessageIds.size===1)chooseReaction([...selectedMessageIds][0])}],['📋','Копировать',async()=>{const texts=[...selectedMessageIds].map(id=>document.querySelector('[data-id="'+id+'"] .msg-content')?.innerText||'').join('\n');try{await navigator.clipboard.writeText(texts);toast('Скопировано')}catch{toast('Не удалось скопировать')}clearSelection()}]].forEach(([icon,label,fn])=>{const btn=document.createElement('button');btn.textContent=icon+' '+label;btn.onclick=fn;bar.append(btn)})}
 function clearSelection(){selectedMessageIds.forEach(id=>document.querySelector('[data-id="'+id+'"]').classList.remove('selected'));selectedMessageIds.clear();$('chatSelectionBar')?.remove()}
-async function toggleReaction(id,emoji){const {data,error}=await sb.from('messages').select('reactions').eq('id',id).single();if(error){toast(error.message);return}const reactions=data?.reactions||{};const users=Array.isArray(reactions[emoji])?reactions[emoji]:[];reactions[emoji]=users.includes(currentUser.id)?users.filter(x=>x!==currentUser.id):[...users,currentUser.id];if(!reactions[emoji].length)delete reactions[emoji];const {error:up}=await sb.from('messages').update({reactions}).eq('id',id);if(up)toast('Не удалось обновить реакцию: '+up.message);else{const {data:full}=await sb.from('messages').select('id,conversation_id,sender_id,body,created_at,delivered_at,read_at,message_type,media_url,reactions').eq('id',id).single();if(full)refreshMessage(full)}}
+function normalizeReactions(value){
+ if(!value||typeof value!=='object'||Array.isArray(value))return{};
+ const out={};for(const [emoji,users] of Object.entries(value)){if(Array.isArray(users))out[emoji]=[...new Set(users.filter(x=>typeof x==='string'))];}
+ return out;
+}
+async function toggleReaction(id,emoji){
+ const {data,error}=await sb.from('messages').select('reactions').eq('id',id).single();
+ if(error){toast('Не удалось загрузить реакции: '+error.message);return}
+ const reactions=normalizeReactions(data?.reactions),users=reactions[emoji]||[];
+ reactions[emoji]=users.includes(currentUser.id)?users.filter(x=>x!==currentUser.id):[...users,currentUser.id];
+ if(!reactions[emoji].length)delete reactions[emoji];
+ const {data:updated,error:up}=await sb.from('messages').update({reactions}).eq('id',id).select('id,conversation_id,sender_id,body,created_at,delivered_at,read_at,message_type,media_url,reactions').single();
+ if(up){toast('Реакция не сохранилась: '+up.message);return}
+ if(updated)refreshMessage(updated);
+}
+
 function scrollMessages(){$('messages').scrollTop=$('messages').scrollHeight}
-async function markIncomingRead(conversationId){const now=new Date().toISOString();const {error}=await sb.from('messages').update({delivered_at:now,read_at:now}).eq('conversation_id',conversationId).neq('sender_id',currentUser.id).is('read_at',null);if(error)console.warn('read receipt',error)}
-function updateReadMark(m){const node=document.querySelector('[data-id=\"'+m.id+'\"] [data-read]');if(node)node.textContent=m.read_at?'🙉 прочитано':m.delivered_at?'🙊 доставлено':'🙈 отправлено'}
+async function markIncomingRead(conversationId){
+ const now=new Date().toISOString();
+ const {error}=await sb.from('messages').update({delivered_at:now,read_at:now}).eq('conversation_id',conversationId).neq('sender_id',currentUser.id).is('read_at',null);
+ if(error)console.warn('read receipt',error);
+}
+function updateReadMark(m){const node=document.querySelector('[data-id="'+m.id+'"] [data-read]');if(node)node.textContent=m.read_at?'🙉 прочитано':m.delivered_at?'🙊 доставлено':'🙈 отправлено'}
+async function refreshOwnMessageReceipts(conversationId){
+ if(!currentUser||activeChat?.id!==conversationId)return;
+ const {data,error}=await sb.from('messages').select('id,delivered_at,read_at').eq('conversation_id',conversationId).eq('sender_id',currentUser.id).order('created_at',{ascending:false}).limit(100);
+ if(error){console.warn('receipt refresh',error);return}
+ (data||[]).forEach(updateReadMark);
+}
+
 async function sendMessage(){
  const input=$('messageInput'),body=input.value.trim();if(!body||!activeChat)return;
  input.value='';input.style.height='42px';
@@ -382,7 +411,7 @@ async function toggleVoiceRecording(){
  try{const stream=await navigator.mediaDevices.getUserMedia({audio:true});voiceChunks=[];mediaRecorder=new MediaRecorder(stream);mediaRecorder.ondataavailable=e=>{if(e.data.size)voiceChunks.push(e.data)};mediaRecorder.onstop=async()=>{stream.getTracks().forEach(t=>t.stop());const blob=new Blob(voiceChunks,{type:mediaRecorder.mimeType||'audio/webm'});if(blob.size>15*1024*1024){toast('Голосовое слишком большое (лимит 15 МБ)');return}await uploadVoice(blob)};mediaRecorder.start();isRecordingVoice=true;$('recordVoice').classList.add('recording');$('recordVoice').textContent='⏹';toast('Запись началась — нажми ⏹ чтобы отправить');}catch(e){toast('Нет доступа к микрофону: '+(e.message||e))}
 }
 async function uploadVoice(blob){if(!activeChat)return;const ext=blob.type.includes('ogg')?'ogg':blob.type.includes('mp4')?'m4a':'webm';const path=currentUser.id+'/'+activeChat.id+'/'+Date.now()+'.'+ext;const {error:up}=await sb.storage.from('ugr-voice').upload(path,blob,{upsert:false,contentType:blob.type||'audio/webm'});if(up){toast('Ошибка загрузки голосового: '+up.message);return}const {data:url}=sb.storage.from('ugr-voice').getPublicUrl(path);const {data,error}=await sb.from('messages').insert({conversation_id:activeChat.id,sender_id:currentUser.id,body:'Голосовое сообщение',message_type:'voice',media_url:url.publicUrl}).select().single();if(error){toast('Не удалось отправить голосовое: '+error.message);return}appendMessage(data);const c=chats.find(x=>x.id===activeChat.id);if(c){c.last=data;renderChats()}}
-function backToChats(){$('app').classList.remove('show-chat')}
+function backToChats(){if(receiptPoll){clearInterval(receiptPoll);receiptPoll=null}$('app').classList.remove('show-chat')}
 function closeModal(){$('modal').classList.add('hidden')}
 async function openProfile(){
  if(!profile){toast('Профиль ещё загружается');return}
