@@ -496,11 +496,11 @@ async function loadUnreadNotifications(){
  if(!error){unreadNotifications=count||0;updateNotificationBadge();}
 }
 async function claimDailyXp(){
- const {data,error}=await sb.rpc('claim_daily_xp');
+ const {data,error}=await sb.rpc('claim_ugr_daily_xp_v2');
  if(error){console.warn('Daily XP:',error.message);return;}
  const result=Array.isArray(data)?data[0]:data;if(!result)return;
- totalXp=result.total_xp||0;
- if(result.awarded===10)toast('⭐ Ежедневная награда: +10 XP!');
+ totalXp=Number(result.total_xp||0);
+ if(Number(result.awarded)>0)toast('⭐ День '+result.cycle_day+': ежедневная награда +'+result.awarded+' XP!');
 }
 async function openTop10(){
  $('modalTitle').textContent='🏆 TOP-10';$('modalBody').innerHTML='<div class="top10-intro">РЕЙТИНГ UGR · реальные участники · накопленный опыт</div><div id="top10List" class="form">Загружаем рейтинг…</div>';$('modal').classList.remove('hidden');
