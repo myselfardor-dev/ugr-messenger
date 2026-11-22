@@ -172,7 +172,7 @@ body{background:radial-gradient(ellipse at 10% 0%,#22204244,transparent 38%),rad
 .profile-username{font-size:14px;color:#aaa3bd;margin-top:3px}
 .profile-status{font-size:12px;color:#62dca8;margin-top:7px}
 .profile-status.offline{color:var(--muted)}
-.profile-action-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:4px 0 18px;position:relative;z-index:1}
+.profile-action-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:4px 0 18px;position:relative;z-index:1}
 .profile-action{min-width:0;background:transparent;border:1px solid #343247;border-radius:15px;padding:12px 4px 10px;display:flex;flex-direction:column;align-items:center;gap:7px;color:#e9e4f6;font-size:11px;transition:.18s}
 .profile-action:hover{background:#29223b;border-color:#8069bd;transform:translateY(-1px)}
 .profile-action .action-icon{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(145deg,#40345e,#242337);font-size:19px}
@@ -200,6 +200,19 @@ body{background:radial-gradient(ellipse at 10% 0%,#22204244,transparent 38%),rad
 @media(max-width:480px){.profile-hero-avatar{width:104px;height:104px}.profile-display-name{font-size:20px}.profile-action-row{gap:5px}.profile-action{padding:10px 2px;font-size:10px}.profile-action .action-icon{width:39px;height:39px}}
 @media(prefers-reduced-motion:reduce){.profile-curtain-stage .curtain{animation:none;transition:none!important}}
 
+
+.gift-launch{border-color:#7254a8;background:linear-gradient(135deg,#302447,#211b30)}
+.gift-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:12px;margin-top:14px}
+.gift-card{background:linear-gradient(145deg,#211d2d,#17151f);border:1px solid #393149;border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.gift-art{font-size:38px;line-height:1.3;text-align:center;padding:9px 0}
+.gift-title{font-weight:800}.gift-description{font-size:12px;color:#aaa2b7;min-height:30px}.gift-price{font-size:13px;color:#d5bdff;font-weight:800}
+.gift-rarity{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#9f8dbd}
+.gift-card .smallbtn{width:100%;justify-content:center}.gift-collection{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:9px;margin-top:10px}
+.gift-collection-item{background:#211d2c;border:1px solid #393149;border-radius:12px;padding:11px;text-align:center}.gift-collection-item .gift-art{font-size:28px;padding:2px}.gift-collection-item small{display:block;color:#a9a1b4;margin-top:4px}
+.gift-history-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #302b3b}.gift-history-row .gift-art{font-size:27px;padding:0;min-width:38px}
+.chat.pinned-developer{border:1px solid #6e55a2;background:linear-gradient(110deg,#282039,#1b1824);order:-1}.developer-chip{font-size:9px;color:#cbb6ff;border:1px solid #66518f;border-radius:20px;padding:2px 6px;margin-left:6px;vertical-align:middle}
+.chat-status{font-size:11px;color:#a7a0b2}.chat-status.online{color:#7edba4}
+
 </style>
 </head>
 <body>
@@ -221,7 +234,7 @@ body{background:radial-gradient(ellipse at 10% 0%,#22204244,transparent 38%),rad
  <aside class="sidebar">
   <div class="brand"><div class="logo">U</div><div><div class="brand-name">UGR</div><div class="brand-sub">MESSENGER</div></div></div>
   <div class="search"><input id="searchChats" placeholder="Поиск чатов..." oninput="renderChats()"></div>
-  <div class="toolbar"><button class="smallbtn" onclick="openFind()">＋ Найти пользователя</button><button class="smallbtn" onclick="openProfile()">Профиль</button><button class="smallbtn world-launch" onclick="openUgrWorld()">🌌 UGR WORLD</button><button class="smallbtn" onclick="openTop10()">🏆 TOP-10</button><button class="smallbtn" onclick="openNotifications()">🔔 Уведомления <span id="notificationBadge" class="badge-count hidden">0</span></button></div>
+  <div class="toolbar"><button class="smallbtn" onclick="openFind()">＋ Найти пользователя</button><button class="smallbtn" onclick="openProfile()">Профиль</button><button class="smallbtn world-launch" onclick="openUgrWorld()">🌌 UGR WORLD</button><button class="smallbtn" onclick="openTop10()">🏆 TOP-10</button><button class="smallbtn gift-launch" onclick="openGiftShop()">🎁 Подарки</button></div>
   <div class="section">ВАШИ ЧАТЫ</div><div class="chat-list" id="chatList"></div>
   <div class="sidebar-bottom"><div class="me-avatar" id="myAvatar">U</div><div class="me"><strong id="myName">Профиль</strong><small id="myEmail"></small></div><button class="icon-btn" onclick="signOut()" title="Выйти">↪</button></div>
  </aside>
@@ -232,12 +245,14 @@ body{background:radial-gradient(ellipse at 10% 0%,#22204244,transparent 38%),rad
  </main>
 </div>
 <div id="modal" class="screen hidden"><div class="panel"><div class="row"><h2 id="modalTitle" style="flex:1;margin:0">Поиск</h2><button class="icon-btn" onclick="closeModal()">✕</button></div><div id="modalBody" class="form"></div></div></div>
-<div id="toast" class="toast hidden"></div><div id="developerWelcome" class="developer-toast hidden collapsed"><button class="dev-open" onclick="toggleDeveloperWelcome()" aria-label="Приветствие разработчика">✉️</button></div>
+<div id="toast" class="toast hidden"></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const SUPABASE_URL='https://wpdltxncbzcuwmidtzys.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY='sb_publishable_PNACWSzOfHMNLFB-1Lbj7g_kqLVvKnM';
-let sb=null, currentUser=null, profile=null, chats=[], activeChat=null, channel=null, receiptPoll=null, authMode='login', notificationChannel=null, unreadNotifications=0, totalXp=0, selectedAvatarEmoji='🙂', selectedAvatarPhoto=false, selectedCurtainColor='#5a3b8d', developerWelcomeExpanded=false, presenceChannel=null, onlineUsers=new Set(), typingTimer=null, mediaRecorder=null, voiceChunks=[], isRecordingVoice=false;
+let sb=null, currentUser=null, profile=null, chats=[], activeChat=null, channel=null, receiptPoll=null, authMode='login', notificationChannel=null, unreadNotifications=0, totalXp=0, selectedAvatarEmoji='🙂', selectedAvatarPhoto=false, selectedCurtainColor='#5a3b8d', presenceChannel=null, onlineUsers=new Set(), typingTimer=null, mediaRecorder=null, voiceChunks=[], isRecordingVoice=false;
+const DEVELOPER_USER_ID='3bc957da-10a5-4587-aa76-05f4d1d67bb2';
+let lastSeenByUser=new Map(),lastSeenHeartbeatTimer=null,giftCatalog=[];
 const $=id=>document.getElementById(id);
 function toast(s){$('toast').textContent=s;$('toast').classList.remove('hidden');setTimeout(()=>$('toast').classList.add('hidden'),2600)}
 function initSupabase(){
@@ -265,14 +280,30 @@ async function submitAuth(){
 }
 async function enterApp(user){
  currentUser=user;$('authScreen').classList.add('hidden');$('app').classList.remove('hidden');
- await loadProfile();await loadChats();await claimDailyXp();await loadUnreadNotifications();subscribeGlobalMessages();subscribeNotifications();showDeveloperWelcomeIfNeeded();
- sb.auth.onAuthStateChange((event,session)=>{if(event==='SIGNED_OUT'){location.reload()}});
+ await loadProfile();startLastSeenTracking();await ensureDeveloperChat();await loadChats();await claimDailyXp();await loadUnreadNotifications();subscribeGlobalMessages();subscribeNotifications();
+ sb.auth.onAuthStateChange((event,session)=>{if(event==='SIGNED_OUT'){if(lastSeenHeartbeatTimer)clearInterval(lastSeenHeartbeatTimer);location.reload()}});
 }
 async function loadProfile(){
  const {data,error}=await sb.from('profiles').select('*').eq('id',currentUser.id).maybeSingle();
  if(error)throw error;profile=data;
  if(!profile){toast('Профиль не найден. Проверь SQL-настройку в Supabase.');return}
  $('myName').textContent='@'+profile.username;$('myEmail').textContent=currentUser.email||'';renderAvatar($('myAvatar'),profile);
+}
+async function updateMyLastSeen(){
+ if(!currentUser||!sb)return;const stamp=new Date().toISOString();
+ const {error}=await sb.from('profiles').update({last_seen_at:stamp}).eq('id',currentUser.id);
+ if(error)console.warn('last_seen update:',error.message);else profile.last_seen_at=stamp;
+}
+function startLastSeenTracking(){
+ updateMyLastSeen();if(lastSeenHeartbeatTimer)clearInterval(lastSeenHeartbeatTimer);
+ lastSeenHeartbeatTimer=setInterval(updateMyLastSeen,60000);
+ document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')updateMyLastSeen()});
+ window.addEventListener('focus',updateMyLastSeen);
+}
+async function ensureDeveloperChat(){
+ if(!currentUser||currentUser.id===DEVELOPER_USER_ID)return;
+ try{const {error}=await sb.rpc('ensure_developer_chat');if(error)throw error;}
+ catch(e){console.warn('Developer chat:',e.message||e);toast('Не удалось подготовить чат разработчика: '+(e.message||''));}
 }
 
 function renderAvatar(el,p){
@@ -307,7 +338,7 @@ function subscribeNotifications(){
    if(!activeChat||activeChat.id!==note.conversation_id||!$('app').classList.contains('show-chat'))toast('🔔 '+(note.message||'Новое уведомление'));
   }).subscribe();
 }
-function updateNotificationBadge(){const b=$('notificationBadge');b.textContent=unreadNotifications>99?'99+':unreadNotifications;b.classList.toggle('hidden',unreadNotifications===0)}
+function updateNotificationBadge(){const b=$('notificationBadge');if(!b)return;b.textContent=unreadNotifications>99?'99+':unreadNotifications;b.classList.toggle('hidden',unreadNotifications===0)}
 async function loadUnreadNotifications(){
  const {count,error}=await sb.from('notifications').select('id',{count:'exact',head:true}).is('read_at',null);
  if(!error){unreadNotifications=count||0;updateNotificationBadge();}
@@ -339,23 +370,37 @@ async function loadChats(){
  for(const id of ids){
   const {data:members}=await sb.from('conversation_members').select('user_id').eq('conversation_id',id);
   const other=(members||[]).find(x=>x.user_id!==currentUser.id);if(!other)continue;
-  const {data:cards}=await sb.rpc('get_profile_cards',{target_user_ids:[other.user_id]});const {data:details}=await sb.rpc('get_public_profile_details',{target_user_id:other.user_id});const detail=Array.isArray(details)?details[0]:details;const p=cards?.[0]?{...cards[0],...(detail||{}),id:other.user_id}:null;
+  let card=null;if(other.user_id===DEVELOPER_USER_ID){const {data:devCard}=await sb.rpc('get_developer_profile_card');card=Array.isArray(devCard)?devCard[0]:devCard;}else{const {data:cards}=await sb.rpc('get_profile_cards',{target_user_ids:[other.user_id]});card=cards?.[0]||null;}const {data:details}=await sb.rpc('get_public_profile_details',{target_user_id:other.user_id});const detail=Array.isArray(details)?details[0]:details;const p=card?{...card,...(detail||{}),...(other.user_id===DEVELOPER_USER_ID?card:{}),id:other.user_id}:null;
   const {data:last}=await sb.from('messages').select('body,created_at').eq('conversation_id',id).order('created_at',{ascending:false}).limit(1);
   if(p)chats.push({id,other:p,last:last?.[0]||null});
  }
- chats.sort((a,b)=>new Date(b.last?.created_at||0)-new Date(a.last?.created_at||0));renderChats();
+ const idsForStatus=chats.map(c=>c.other.id||c.other.user_id).filter(Boolean);
+ if(idsForStatus.length){const {data:seen,error:seenError}=await sb.rpc('get_profile_last_seen',{target_user_ids:idsForStatus});if(!seenError)(seen||[]).forEach(x=>lastSeenByUser.set(x.user_id,x.last_seen_at));else console.warn('last seen:',seenError.message)}
+ chats.sort((a,b)=>{const ap=(a.other.id||a.other.user_id)===DEVELOPER_USER_ID,bp=(b.other.id||b.other.user_id)===DEVELOPER_USER_ID;if(ap!==bp)return ap?-1:1;return new Date(b.last?.created_at||0)-new Date(a.last?.created_at||0)});renderChats();
 }
+function formatLastSeen(value){
+ if(!value)return 'Не в сети';const d=new Date(value);if(Number.isNaN(d.getTime()))return 'Не в сети';
+ const now=new Date(),today=new Date(now.getFullYear(),now.getMonth(),now.getDate()),day=new Date(d.getFullYear(),d.getMonth(),d.getDate());
+ const time=d.toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'});
+ if(now.getTime()-d.getTime()<5*60*1000)return 'Был в сети только что';
+ if(day.getTime()===today.getTime())return 'Был сегодня в '+time;
+ const yesterday=new Date(today);yesterday.setDate(today.getDate()-1);if(day.getTime()===yesterday.getTime())return 'Был вчера в '+time;
+ return 'Был '+d.toLocaleDateString('ru-RU',{day:'numeric',month:'long'})+' в '+time;
+}
+function getUserStatus(id){if(isUserOnline(id))return 'В сети';return formatLastSeen(lastSeenByUser.get(id))}
 function renderChats(){
  const q=$('searchChats').value.toLowerCase(),list=$('chatList'),savedScroll=list.scrollTop;list.replaceChildren();
- chats.filter(c=>('@'+c.other.username).toLowerCase().includes(q)).forEach(c=>{
-  const el=document.createElement('div');el.className='chat'+(activeChat?.id===c.id?' active':'');
+ chats.filter(c=>('@'+(c.other.username||'')).toLowerCase().includes(q)||((c.other.id||c.other.user_id)===DEVELOPER_USER_ID&&'разработчик ugr'.includes(q))).forEach(c=>{
+  const personId=c.other.id||c.other.user_id,isDev=personId===DEVELOPER_USER_ID;
+  const el=document.createElement('div');el.className='chat'+(activeChat?.id===c.id?' active':'')+(isDev?' pinned-developer':'');
   const av=c.other.avatar_url?document.createElement('img'):document.createElement('div');av.className=c.other.avatar_url?'profilepic':'avatar';renderAvatar(av,c.other);if(c.other.avatar_url)av.src=c.other.avatar_url;
   const info=document.createElement('div');info.className='chat-info';
-  const top=document.createElement('div');top.className='chat-top';const n=document.createElement('span');n.className='chat-name';n.textContent=c.other.profile_private?'Закрытый профиль':'@'+(c.other.username||'пользователь');
-  if(!c.other.profile_private&&isUserOnline(c.other.id||c.other.user_id)){const dot=document.createElement('span');dot.className='online-dot';dot.title='В сети';dot.textContent='●';n.append(dot);}
+  const top=document.createElement('div');top.className='chat-top';const n=document.createElement('span');n.className='chat-name';n.textContent=isDev?'Разработчик UGR':(c.other.profile_private?'Закрытый профиль':'@'+(c.other.username||'пользователь'));
+  if(isDev){const chip=document.createElement('span');chip.className='developer-chip';chip.textContent='СОЗДАТЕЛЬ';n.append(chip)}
   const t=document.createElement('span');t.className='time';t.textContent=c.last?new Date(c.last.created_at).toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'}):'';
-  const p=document.createElement('div');p.className='preview';p.textContent=c.last?.body||'Начните переписку';
-  top.append(n,t);info.append(top,p);el.append(av,info);el.onclick=()=>openChat(c);list.append(el);
+  const p=document.createElement('div');p.className='preview';p.textContent=c.last?.body|| (isDev?'Написать разработчику':'Начните переписку');
+  const status=document.createElement('div');status.className='chat-status'+(isUserOnline(personId)?' online':'');status.textContent=getUserStatus(personId);
+  top.append(n,t);info.append(top,p,status);el.append(av,info);el.onclick=()=>openChat(c);list.append(el);
  });
  list.scrollTop=savedScroll;
 }
@@ -386,16 +431,16 @@ async function startChat(person){
 async function openChat(c){
  if(receiptPoll){clearInterval(receiptPoll);receiptPoll=null}
  if(channel){await sb.removeChannel(channel);channel=null}
- clearSelection();activeChat=c;$('headName').textContent='@'+(c.other.username||'пользователь');$('headStatus').textContent=isUserOnline(c.other.id||c.other.user_id)?'В сети':'Не в сети';renderAvatar($('headAvatar'),c.other);$('headName').onclick=()=>viewUserProfile(c.other.id||c.other.user_id);$('headAvatar').onclick=()=>viewUserProfile(c.other.id||c.other.user_id);$('headName').style.cursor='pointer';$('headAvatar').style.cursor='pointer';$('headAvatar').classList.add('profile-card-open');
+ clearSelection();activeChat=c;const isDev=(c.other.id||c.other.user_id)===DEVELOPER_USER_ID;$('headName').textContent=isDev?'Разработчик UGR':'@'+(c.other.username||'пользователь');$('headStatus').textContent=getUserStatus(c.other.id||c.other.user_id);renderAvatar($('headAvatar'),c.other);$('headName').onclick=()=>viewUserProfile(c.other.id||c.other.user_id);$('headAvatar').onclick=()=>viewUserProfile(c.other.id||c.other.user_id);$('headName').style.cursor='pointer';$('headAvatar').style.cursor='pointer';$('headAvatar').classList.add('profile-card-open');
  $('messageInput').disabled=false;$('send').disabled=false;$('recordVoice').disabled=false;$('messages').innerHTML='<div class="empty">Загружаем сообщения…</div>';$('app').classList.add('show-chat');renderChats();
  channel=sb.channel('ugr-chat-'+c.id,{config:{broadcast:{self:false},presence:{key:currentUser.id}}})
   .on('postgres_changes',{event:'INSERT',schema:'public',table:'messages',filter:'conversation_id=eq.'+c.id},payload=>{if(payload.new.sender_id!==currentUser.id){appendMessage(payload.new);markIncomingRead(c.id)}})
   .on('postgres_changes',{event:'UPDATE',schema:'public',table:'messages',filter:'conversation_id=eq.'+c.id},payload=>{refreshMessage(payload.new)})
-  .on('broadcast',{event:'typing'},payload=>{if(payload.payload?.user_id!==currentUser.id){$('headStatus').textContent=payload.payload?.typing?'Печатает…':(isUserOnline(c.other.id||c.other.user_id)?'В сети':'Не в сети')}})
+  .on('broadcast',{event:'typing'},payload=>{if(payload.payload?.user_id!==currentUser.id){$('headStatus').textContent=payload.payload?.typing?'Печатает…':getUserStatus(c.other.id||c.other.user_id)}})
   .subscribe();
  await loadMessages(c.id);await markIncomingRead(c.id);refreshChatStatus();await refreshOwnMessageReceipts(c.id);receiptPoll=setInterval(()=>refreshOwnMessageReceipts(c.id),2200);
 }
-function refreshChatStatus(){if(!activeChat)return;const id=activeChat.other.id||activeChat.other.user_id;$('headStatus').textContent=isUserOnline(id)?'В сети':'Не в сети'}
+function refreshChatStatus(){if(!activeChat)return;const id=activeChat.other.id||activeChat.other.user_id;$('headStatus').textContent=getUserStatus(id);}
 function broadcastTyping(value){if(!channel||!activeChat)return;channel.send({type:'broadcast',event:'typing',payload:{user_id:currentUser.id,typing:value}})}
 async function loadMessages(id){
  const {data,error}=await sb.from('messages').select('id,conversation_id,sender_id,body,created_at,delivered_at,read_at,message_type,media_url,reactions').eq('conversation_id',id).order('created_at',{ascending:true}).limit(500);
@@ -470,8 +515,8 @@ async function openProfile(){
  <div class="profile-edit-preview"><div class="profile-hero"><div class="profile-hero-avatar" id="previewAvatar">U</div><div class="profile-display-name" id="previewDisplayName"></div><div class="profile-username" id="previewNick"></div><div class="profile-status">Так профиль видят другие</div></div><div class="profile-curtain-stage" id="curtainPreview"><div class="curtain left"></div><div class="curtain right"></div></div></div>
  <div class="profile-section"><div class="profile-section-title">Приватность профиля</div><div class="row" style="justify-content:space-between"><span class="muted">Скрывать профиль шторами</span><button class="smallbtn" id="curtainButton" onclick="toggleCurtains()">Шторки</button></div><label class="muted" style="display:flex;align-items:center;gap:9px;margin-top:12px">Цвет штор <input id="curtainColor" type="color" style="width:42px;height:30px;padding:0;border:0;background:transparent" value="#594080" onchange="previewCurtainColor(this.value)"></label></div>
  <div class="profile-section"><div class="profile-section-title">Аватар</div><div class="muted">Выбери эмодзи или загрузи фотографию (до 5 МБ)</div><div class="emoji-picker" id="emojiPicker" style="margin:10px 0"></div><input id="avatarFile" class="field" type="file" accept="image/*"></div>
- <div class="profile-section"><div class="profile-section-title">Данные профиля</div><div class="profile-edit-grid"><label class="muted">Уникальный ник</label><input id="profileUsername" class="field" maxlength="20"><label class="muted">Отображаемое имя</label><input id="displayName" class="field" maxlength="40"><label class="muted">О себе</label><textarea id="bio" class="field" maxlength="240" rows="3" placeholder="Расскажи немного о себе"></textarea><button class="primary" onclick="saveProfile()">Сохранить изменения</button><button class="link" onclick="signOut()">Выйти из аккаунта</button></div></div></div>`;
- $('modal').classList.remove('hidden');$('profileUsername').value=profile.username||'';$('displayName').value=profile.display_name||'';$('bio').value=profile.bio||'';
+ <div class="profile-section"><div class="profile-section-title">🎁 Моя коллекция подарков</div><div id="myGiftCollection" class="gift-collection"><span class="muted">Загружаем коллекцию…</span></div></div><div class="profile-section"><div class="profile-section-title">Данные профиля</div><div class="profile-edit-grid"><label class="muted">Уникальный ник</label><input id="profileUsername" class="field" maxlength="20"><label class="muted">Отображаемое имя</label><input id="displayName" class="field" maxlength="40"><label class="muted">О себе</label><textarea id="bio" class="field" maxlength="240" rows="3" placeholder="Расскажи немного о себе"></textarea><button class="primary" onclick="saveProfile()">Сохранить изменения</button><button class="link" onclick="signOut()">Выйти из аккаунта</button></div></div></div>`;
+ $('modal').classList.remove('hidden');loadGiftCollection($('myGiftCollection'),currentUser.id);$('profileUsername').value=profile.username||'';$('displayName').value=profile.display_name||'';$('bio').value=profile.bio||'';
  selectedAvatarEmoji=profile.avatar_emoji||'🙂';selectedAvatarPhoto=!!profile.avatar_url;selectedCurtainColor=safeColor(profile.curtain_color);$('curtainColor').value=selectedCurtainColor;$('curtainPreview').style.setProperty('--curtain-base',selectedCurtainColor);
  $('previewNick').textContent='@'+(profile.username||'username');$('previewDisplayName').textContent=profile.display_name||'';renderAvatar($('previewAvatar'),profile);$('avatarFile').onchange=()=>{const f=$('avatarFile').files?.[0];if(f){selectedAvatarPhoto=true;const u=URL.createObjectURL(f);$('previewAvatar').innerHTML='';const img=document.createElement('img');img.src=u;$('previewAvatar').append(img)}};buildEmojiPicker();updateCurtainButton();
 }
@@ -484,15 +529,14 @@ async function viewUserProfile(userId){
  if(userId===currentUser?.id){await openProfile();return}
  try{
  const {data,error}=await sb.rpc('get_public_profile_details',{target_user_id:userId});if(error)throw error;const p=Array.isArray(data)?data[0]:data;if(!p){toast('Профиль недоступен');return}
- const closed=!!p.profile_private;const online=typeof isUserOnline==='function'&&isUserOnline(userId);
+ const closed=!!p.profile_private;const online=typeof isUserOnline==='function'&&isUserOnline(userId);const {data:seenData}=await sb.rpc('get_profile_last_seen',{target_user_ids:[userId]});const seenRow=(seenData||[])[0];if(seenRow?.last_seen_at)lastSeenByUser.set(userId,seenRow.last_seen_at);const statusText=online?'В сети':formatLastSeen(seenRow?.last_seen_at);
  $('modalTitle').textContent='Профиль';
- $('modalBody').innerHTML=`<div class="profile-view" id="foreignProfile"><div class="profile-curtain-stage ${closed?'closed':''}" id="publicCurtainPreview"><div class="curtain left"></div><div class="curtain right"></div></div><div class="profile-hero"><div class="profile-hero-avatar" id="publicPreviewAvatar"></div><div class="profile-display-name" id="publicDisplayName"></div><div class="profile-username" id="publicPreviewNick"></div><div class="profile-status ${online?'':'offline'}" id="publicStatus">${online?'● В сети':'● Не в сети'}</div></div><div class="profile-action-row"><button class="profile-action" id="publicCallButton"><span class="action-icon">☎</span><span>Звонок</span></button><button class="profile-action" id="publicWriteButton"><span class="action-icon">✉</span><span>Чат</span></button><button class="profile-action" id="publicNotifyButton"><span class="action-icon">♢</span><span>Уведомления</span></button><button class="profile-action" id="publicMoreButton"><span class="action-icon">•••</span><span>Ещё</span></button></div><div class="profile-section"><div class="profile-section-title">Информация о себе</div><div class="profile-section-value" id="publicBio">${closed?'': 'Нет информации о себе'}</div></div><div class="profile-section" id="publicMeta"><div class="profile-section-title">Информация</div><div class="profile-meta-row"><span>Имя пользователя</span><strong id="metaUsername"></strong></div><div class="profile-meta-row" id="joinedRow"><span>В UGR с</span><strong id="metaJoined">—</strong></div></div><div class="profile-section"><div class="profile-section-title">Медиа</div><div class="profile-section-value muted" id="publicMedia">Медиафайлы появятся здесь, когда будет подключён общий медиакаталог.</div></div></div>`;
+ $('modalBody').innerHTML=`<div class="profile-view" id="foreignProfile"><div class="profile-curtain-stage ${closed?'closed':''}" id="publicCurtainPreview"><div class="curtain left"></div><div class="curtain right"></div></div><div class="profile-hero"><div class="profile-hero-avatar" id="publicPreviewAvatar"></div><div class="profile-display-name" id="publicDisplayName"></div><div class="profile-username" id="publicPreviewNick"></div><div class="profile-status ${online?'':'offline'}" id="publicStatus">● ${statusText}</div></div><div class="profile-action-row"><button class="profile-action" id="publicCallButton"><span class="action-icon">☎</span><span>Звонок</span></button><button class="profile-action" id="publicWriteButton"><span class="action-icon">✉</span><span>Чат</span></button><button class="profile-action" id="publicMoreButton"><span class="action-icon">•••</span><span>Ещё</span></button></div><div class="profile-section"><div class="profile-section-title">Информация о себе</div><div class="profile-section-value" id="publicBio">${closed?'': 'Нет информации о себе'}</div></div><div class="profile-section" id="publicMeta"><div class="profile-section-title">Информация</div><div class="profile-meta-row"><span>Имя пользователя</span><strong id="metaUsername"></strong></div><div class="profile-meta-row" id="joinedRow"><span>В UGR с</span><strong id="metaJoined">—</strong></div></div><div class="profile-section"><div class="profile-section-title">🎁 Подарки</div><div id="publicGiftCollection" class="gift-collection"><span class="muted">Загружаем коллекцию…</span></div></div><div class="profile-section"><div class="profile-section-title">Медиа</div><div class="profile-section-value muted" id="publicMedia">Медиафайлы появятся здесь, когда будет подключён общий медиакаталог.</div></div></div>`;
  $('modal').classList.remove('hidden');$('publicCurtainPreview').style.setProperty('--curtain-base',safeColor(p.curtain_color));$('publicDisplayName').textContent=closed?'Профиль скрыт':(p.display_name||p.username||'Пользователь');$('publicPreviewNick').textContent=closed?'':('@'+(p.username||'пользователь'));$('metaUsername').textContent=closed?'Скрыт':'@'+(p.username||'—');$('publicBio').textContent=closed?'Информация скрыта владельцем':(p.bio||'Нет информации о себе');
  if(p.created_at){$('metaJoined').textContent=new Date(p.created_at).toLocaleDateString('ru-RU',{year:'numeric',month:'long',day:'numeric'})}else{$('joinedRow').classList.add('hidden')}
  if(!closed){renderAvatar($('publicPreviewAvatar'),p);$('publicPreviewAvatar').classList.toggle('emoji-avatar',!p.avatar_url);}else{$('publicPreviewAvatar').textContent='🔒';$('publicPreviewAvatar').style.filter='blur(2px)'}
- $('publicWriteButton').onclick=()=>startChat({id:userId,...p});
+ $('publicWriteButton').onclick=()=>startChat({id:userId,...p});loadGiftCollection($('publicGiftCollection'),userId);
  $('publicCallButton').onclick=()=>toast('Звонки пока не подключены к UGR MESSENGER');
- const notifyKey='ugr_notify_'+userId;const updateNotify=()=>{$('publicNotifyButton').querySelector('span:last-child').textContent=localStorage.getItem(notifyKey)==='1'?'Уведомления вкл.':'Уведомления';};updateNotify();$('publicNotifyButton').onclick=()=>{const next=localStorage.getItem(notifyKey)!=='1';localStorage.setItem(notifyKey,next?'1':'0');updateNotify();toast(next?'Локальное уведомление включено':'Локальное уведомление выключено')};
  $('publicMoreButton').onclick=()=>{const action=confirm('Скопировать ссылку на профиль @'+(p.username||'пользователь')+'?');if(action){const url=location.origin+location.pathname+'?user='+encodeURIComponent(p.username||'');if(navigator.clipboard?.writeText)navigator.clipboard.writeText(url).then(()=>toast('Ссылка скопирована')).catch(()=>toast(url));else toast(url)}};
  }catch(e){toast('Не удалось открыть профиль: '+(e.message||e))}
 }
@@ -507,15 +551,47 @@ async function saveProfile(){
  const {data,error}=await sb.from('profiles').update({username,display_name,bio,avatar_url,avatar_emoji:selectedAvatarPhoto?null:selectedAvatarEmoji,curtain_color:selectedCurtainColor,profile_private:!!profile.profile_private}).eq('id',currentUser.id).select().single();
  if(error){toast('Не удалось сохранить. Возможно, сначала нужно добавить новые поля в Supabase: '+error.message);return}profile=data;$('myName').textContent='@'+profile.username;renderAvatar($('myAvatar'),profile);closeModal();toast('Профиль сохранён');
 }
-async function showDeveloperWelcomeIfNeeded(){
- try{const {data,error}=await sb.rpc('claim_developer_welcome');if(error){console.warn('Приветствие разработчика пока не настроено:',error.message);return}if(!data)return;
- const box=$('developerWelcome');box.classList.remove('hidden');box.classList.add('collapsed');box.innerHTML='<button class="dev-open" onclick="toggleDeveloperWelcome()" aria-label="Приветствие разработчика">✉️</button><div class="dev-content hidden"><strong>Сообщение от разработчика</strong><p>Привет! Это я, разработчик этого приложения — Никита. Можешь написать мне, если появятся вопросы или предложения!</p><div class="dev-actions"><button class="smallbtn" onclick="openDeveloperProfile()">Написать мне</button><button class="smallbtn" onclick="toggleDeveloperWelcome()">Свернуть</button></div></div>';
- }catch(e){console.warn('Developer welcome:',e)}
-}
-function toggleDeveloperWelcome(){const box=$('developerWelcome');const collapsed=box.classList.toggle('collapsed');const content=box.querySelector('.dev-content');if(content)content.classList.toggle('hidden',collapsed);const opener=box.querySelector('.dev-open');if(opener)opener.classList.toggle('hidden',!collapsed)}
 async function openDeveloperProfile(){await viewUserProfileByUsername('ugr_creator')}
 async function openDeveloperChat(){try{const {data,error}=await sb.rpc('search_profiles',{search_term:'ugr_creator'});if(error)throw error;const p=(data||[]).find(x=>x.username==='ugr_creator');if(!p){toast('Профиль разработчика пока не найден');return}await startChat(p)}catch(e){toast(e.message||'Не удалось открыть чат с разработчиком')}}
 async function viewUserProfileByUsername(username){try{const {data,error}=await sb.rpc('search_profiles',{search_term:username});if(error)throw error;const p=(data||[]).find(x=>x.username===username);if(!p){toast('Профиль @'+username+' пока не найден');return}await viewUserProfile(p.id)}catch(e){toast(e.message||'Не удалось открыть профиль разработчика')}}
+
+async function refreshMyXp(){
+ const {data,error}=await sb.from('user_xp').select('xp').eq('user_id',currentUser.id).maybeSingle();
+ if(error){console.warn('XP balance:',error.message);return totalXp}totalXp=Number(data?.xp||0);return totalXp;
+}
+async function openGiftShop(){
+ $('modalTitle').textContent='🎁 UGR Gifts';$('modalBody').innerHTML='<div class="muted">Загружаем подарки…</div>';$('modal').classList.remove('hidden');
+ try{const [cat]=await Promise.all([sb.from('ugr_gift_catalog').select('gift_key,title,emoji,description,price_xp,rarity').eq('active',true).order('sort_order')]);if(cat.error)throw cat.error;giftCatalog=cat.data||[];const xp=await refreshMyXp();
+  $('modalBody').innerHTML=`<div class="row" style="justify-content:space-between;align-items:center"><div class="muted">Покупай подарки за ежедневные и накопленные XP.</div><strong id="giftXpBalance">⭐ ${xp} XP</strong></div><div class="row" style="justify-content:flex-end;margin-top:8px"><button class="smallbtn" id="giftHistoryButton">История подарков</button></div><div class="gift-grid" id="giftGrid"></div>`;
+  $('giftHistoryButton').onclick=openGiftHistory;const grid=$('giftGrid');giftCatalog.forEach(g=>{const card=document.createElement('div');card.className='gift-card';card.innerHTML=`<div class="gift-rarity">${escapeHtml(g.rarity||'Обычный')}</div><div class="gift-art">${escapeHtml(g.emoji||'🎁')}</div><div class="gift-title">${escapeHtml(g.title)}</div><div class="gift-description">${escapeHtml(g.description||'Подарок для профиля')}</div><div class="gift-price">⭐ ${Number(g.price_xp)} XP</div><button class="smallbtn">Подарить</button>`;card.querySelector('button').onclick=()=>openGiftRecipient(g.gift_key);grid.append(card)});
+  if(!giftCatalog.length)grid.textContent='Каталог пока пуст.';
+ }catch(e){$('modalBody').textContent='Не удалось загрузить магазин: '+(e.message||e)}
+}
+async function openGiftRecipient(giftKey){
+ const g=giftCatalog.find(x=>x.gift_key===giftKey);if(!g)return;
+ $('modalTitle').textContent='Кому отправить подарок?';$('modalBody').innerHTML=`<div class="gift-card" style="max-width:360px;margin:0 auto"><div class="gift-art">${escapeHtml(g.emoji)}</div><div class="gift-title">${escapeHtml(g.title)}</div><div class="gift-price">⭐ ${Number(g.price_xp)} XP</div></div><input id="giftRecipientSearch" class="field" placeholder="Ник пользователя без @" style="margin-top:14px"><button class="primary" id="giftRecipientFind">Найти пользователя</button><div id="giftRecipientResults" class="form"></div><button class="link" id="giftBackToShop">← Назад в магазин</button>`;
+ $('giftRecipientFind').onclick=async()=>{const q=$('giftRecipientSearch').value.trim().replace(/^@/,'').toLowerCase();if(q.length<2){toast('Введи минимум 2 символа ника');return}const {data,error}=await sb.rpc('search_profiles',{search_term:q});const out=$('giftRecipientResults');out.innerHTML='';if(error){out.textContent=error.message;return}const people=(data||[]).filter(x=>x.id!==currentUser.id);if(!people.length){out.textContent='Пользователь не найден';return}people.forEach(person=>{const row=document.createElement('div');row.className='user-result';const av=document.createElement('div');av.className='avatar';renderAvatar(av,person);const name=document.createElement('div');name.className='grow';name.textContent='@'+(person.username||'пользователь');const btn=document.createElement('button');btn.className='smallbtn';btn.textContent='Отправить';btn.onclick=()=>sendUgrGift(giftKey,person.id,person.username);row.append(av,name,btn);out.append(row)})};
+ $('giftRecipientSearch').addEventListener('keydown',e=>{if(e.key==='Enter')$('giftRecipientFind').click()});$('giftBackToShop').onclick=openGiftShop;
+}
+async function sendUgrGift(giftKey,recipientId,username){
+ const g=giftCatalog.find(x=>x.gift_key===giftKey);if(!g)return;if(!confirm(`Отправить «${g.title}» пользователю @${username||'пользователь'} за ${g.price_xp} XP?`))return;
+ try{const {data,error}=await sb.rpc('send_ugr_gift',{p_gift_key:giftKey,p_recipient_id:recipientId,p_message:null});if(error)throw error;const result=Array.isArray(data)?data[0]:data;totalXp=Number(result?.remaining_xp??totalXp);toast(`🎁 Подарок отправлен пользователю @${username||'пользователь'}!`);openGiftShop();}
+ catch(e){toast('Не удалось отправить подарок: '+(e.message||e))}
+}
+async function loadGiftCollection(container,userId){
+ if(!container)return;const {data,error}=await sb.from('ugr_user_gifts').select('gift_key,created_at,sender_id,message').eq('recipient_id',userId).order('created_at',{ascending:false}).limit(60);
+ if(error){container.textContent='Коллекция пока недоступна';console.warn('Gift collection:',error.message);return}
+ if(!data?.length){container.innerHTML='<span class="muted">Пока нет подарков</span>';return}
+ const keys=[...new Set(data.map(x=>x.gift_key))];const {data:items}=await sb.from('ugr_gift_catalog').select('gift_key,title,emoji').in('gift_key',keys);const map=new Map((items||[]).map(x=>[x.gift_key,x]));container.innerHTML='';data.forEach(item=>{const g=map.get(item.gift_key)||{title:item.gift_key,emoji:'🎁'};const el=document.createElement('div');el.className='gift-collection-item';el.innerHTML=`<div class="gift-art">${escapeHtml(g.emoji)}</div><strong>${escapeHtml(g.title)}</strong><small>${new Date(item.created_at).toLocaleDateString('ru-RU')}</small>`;container.append(el)});
+}
+async function openGiftHistory(){
+ $('modalTitle').textContent='🎁 История подарков';$('modalBody').innerHTML='<div class="muted">Загружаем историю…</div>';
+ const {data,error}=await sb.from('ugr_user_gifts').select('id,gift_key,sender_id,recipient_id,xp_spent,message,created_at').or(`sender_id.eq.${currentUser.id},recipient_id.eq.${currentUser.id}`).order('created_at',{ascending:false}).limit(100);
+ if(error){$('modalBody').textContent='Не удалось загрузить историю: '+error.message;return}if(!data?.length){$('modalBody').textContent='История пока пуста.';return}
+ const keys=[...new Set(data.map(x=>x.gift_key))];const {data:items}=await sb.from('ugr_gift_catalog').select('gift_key,title,emoji').in('gift_key',keys);const map=new Map((items||[]).map(x=>[x.gift_key,x]));const ids=[...new Set(data.map(x=>x.sender_id===currentUser.id?x.recipient_id:x.sender_id))];const {data:people}=await sb.rpc('get_profile_cards',{target_user_ids:ids});const peopleMap=new Map((people||[]).map(x=>[x.id,x]));const out=document.createElement('div');
+ data.forEach(item=>{const g=map.get(item.gift_key)||{title:item.gift_key,emoji:'🎁'};const row=document.createElement('div');row.className='gift-history-row';const art=document.createElement('div');art.className='gift-art';art.textContent=g.emoji;const text=document.createElement('div');text.className='grow';const outgoing=item.sender_id===currentUser.id,person=peopleMap.get(outgoing?item.recipient_id:item.sender_id),counterpart=person?.username?'@'+person.username:'закрытый профиль';text.innerHTML=`<strong>${outgoing?'Ты отправил(а)':'Тебе отправили'}: ${escapeHtml(g.title)}</strong><div class="muted">${outgoing?'Кому: ':'От: '}${escapeHtml(counterpart)} · ${new Date(item.created_at).toLocaleString('ru-RU')} · ${Number(item.xp_spent)} XP</div>`;row.append(art,text);out.append(row)});
+ $('modalBody').replaceChildren(out);const back=document.createElement('button');back.className='link';back.textContent='← В магазин';back.onclick=openGiftShop;$('modalBody').append(back);
+}
 
 const UGR_PET_VISUALS={
  shadow_cat:{emoji:'🐈‍⬛',name:'Теневой кот',rarity:'Обычный',color:'#9d8cb8'},
