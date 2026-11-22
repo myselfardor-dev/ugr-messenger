@@ -43,7 +43,7 @@ LANGUAGE sql STABLE SECURITY DEFINER
 SET search_path = ''
 AS $$
   SELECT p.id,
-         row_number() OVER (ORDER BY ux.xp DESC, p.username ASC) AS position,
+         row_number() OVER (ORDER BY ux.xp DESC, p.username ASC) AS rank_position,
          p.username, ux.xp, p.avatar_url, p.avatar_emoji,
          p.avatar_animation, p.avatar_frame
   FROM public.user_xp ux
