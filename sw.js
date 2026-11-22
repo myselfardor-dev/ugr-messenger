@@ -12,12 +12,12 @@ self.addEventListener('fetch',event=>{
 self.addEventListener('push',event=>{
  let data={};try{data=event.data?event.data.json():{}}catch(_){}
  const title=data.title||'UGR MESSENGER';
- const options={body:data.body||'Вам пришло сообщение! Откройте UGR, чтобы посмотреть.',icon:'./icons/icon-192.png',badge:'./icons/icon-192.png',tag:'ugr-new-message',renotify:false,data:{url:data.url||'./'},vibrate:[120,60,120]};
+ const options={body:data.body||'Вам пришло сообщение! Откройте UGR, чтобы посмотреть.',icon:'./icons/icon-192.png',badge:'./icons/icon-192.png',tag:'ugr-new-message',renotify:false,data:{url:data.url||'/ugr-messenger/'},vibrate:[120,60,120]};
  event.waitUntil(self.registration.showNotification(title,options));
 });
 self.addEventListener('notificationclick',event=>{
  event.notification.close();
- const target=new URL(event.notification.data?.url||'./',self.location.origin).href;
+ const target=new URL(event.notification.data?.url||'/ugr-messenger/',self.location.origin).href;
  event.waitUntil(clients.matchAll({type:'window',includeUncontrolled:true}).then(list=>{
   for(const client of list){if(new URL(client.url).origin===self.location.origin){client.focus();return client.navigate(target)}}
   return clients.openWindow(target);
