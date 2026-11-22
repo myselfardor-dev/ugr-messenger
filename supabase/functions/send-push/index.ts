@@ -23,7 +23,7 @@ Deno.serve(async (req) => {
     const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const publicKey = Deno.env.get("VAPID_PUBLIC_KEY")!;
     const privateKey = Deno.env.get("VAPID_PRIVATE_KEY")!;
-    const sender = Deno.env.get("VAPID_SUBJECT") || "mailto:admin@ugr-messenger.app";
+    const sender = Deno.env.get("VAPID_SUBJECT") || "https://myselfardor-dev.github.io/ugr-messenger/";
     if (!url || !anonKey || !serviceKey || !publicKey || !privateKey) return json({ error: "Push function is not configured" }, 500);
 
     const authClient = createClient(url, anonKey, { global: { headers: { Authorization: `Bearer ${token}` } } });
