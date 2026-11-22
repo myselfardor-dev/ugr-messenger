@@ -10,6 +10,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
+<link rel="icon" type="image/png" sizes="64x64" href="./icons/favicon.png">
 <title>UGR MESSENGER</title>
 <style>
 :root{--bg:#0d0d12;--panel:#15151d;--panel2:#1c1c27;--line:#292936;--muted:#9292a5;--text:#f3f2f8;--accent:#9b78f5;--accent2:#7350d5;--green:#55d69a;--red:#ff707d}
@@ -231,12 +232,17 @@ body{background:radial-gradient(ellipse at 10% 0%,#22204244,transparent 38%),rad
 
 .bubble:not(.mine){background:#6b571f;border-color:#8b7436;color:#fff3d0}.bubble:not(.mine) .msg-time{color:#f5df9a}.voice-record-panel{display:flex;align-items:center;gap:12px;max-width:850px;margin:auto;width:100%;background:#1b1b25;border:1px solid #383348;border-radius:18px;padding:12px;animation:recordPanelIn .24s ease-out}.record-dot{width:12px;height:12px;border-radius:50%;background:#ff394e;box-shadow:0 0 10px #ff394e;animation:recordPulse 1s infinite}.voice-record-timer{font-variant-numeric:tabular-nums;font-size:17px;font-weight:700;flex:1}.voice-cancel{background:transparent;color:#ffb0ba;font-weight:800;font-size:12px}.voice-send{width:54px;height:54px;border-radius:50%;background:#8c52d9;color:white;font-size:22px;box-shadow:0 4px 18px #8c52d955}.voice-record-panel button{border:0;cursor:pointer}.voice-record-panel button:active{transform:scale(.96)}@keyframes recordPanelIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}@keyframes recordPulse{50%{opacity:.35;transform:scale(.85)}}.gift-sender-avatar{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;overflow:hidden;border:1px solid #9d82d5;background:#493477;margin:8px auto 0;font-size:17px;cursor:pointer}.gift-sender-avatar img{width:100%;height:100%;object-fit:cover}.gift-collection-item{display:flex;flex-direction:column;align-items:center}.compact-curtain{padding:10px 12px!important}.curtain-controls{display:flex;align-items:center;justify-content:flex-end;gap:10px}.curtain-quick-action{border-color:#7254a8!important;background:#302447!important}.curtain-controls input[type=color]{width:30px;height:30px;padding:0;border:0;border-radius:8px;background:transparent}.emoji-fold summary{cursor:pointer;color:#c9b5f1;font-size:13px;padding:7px 0}.emoji-picker{max-height:150px;overflow:auto;display:flex;flex-wrap:wrap;gap:5px}.emoji-choice{width:36px;height:36px;font-size:20px}
 
+
+/* UGR new neon logo */
+.brand-symbol{display:block;object-fit:cover;border-radius:12px;flex:none}
+.sidebar-symbol{width:42px;height:42px;box-shadow:0 5px 20px #7900ff33}
+.auth-symbol{width:104px;height:104px;margin:0 auto 10px;border-radius:24px;box-shadow:0 0 34px #7d00ff33}
 </style>
 </head>
 <body>
 <div id="authScreen" class="screen">
  <div class="panel">
-  <div class="logo">U</div><h1 style="margin-top:15px">UGR MESSENGER</h1>
+  <img class="brand-symbol auth-symbol" src="./icons/icon-192.png" alt="UGR logo"><h1 style="margin-top:15px">UGR MESSENGER</h1>
   <div class="muted" id="authSubtitle">Твой личный мессенджер</div>
   <div id="authForm" class="form hidden">
    <input id="email" class="field" type="email" autocomplete="email" placeholder="Электронная почта">
@@ -250,7 +256,7 @@ body{background:radial-gradient(ellipse at 10% 0%,#22204244,transparent 38%),rad
 </div>
 <div class="app hidden" id="app">
  <aside class="sidebar">
-  <div class="brand"><div class="logo">U</div><div><div class="brand-name">UGR</div><div class="brand-sub">MESSENGER</div></div></div>
+  <div class="brand"><img class="brand-symbol sidebar-symbol" src="./icons/icon-192.png" alt="UGR logo"><div><div class="brand-name">UGR</div><div class="brand-sub">MESSENGER</div></div></div>
   <div class="search"><input id="searchChats" placeholder="Поиск чатов..." oninput="renderChats()"></div>
   <div class="toolbar"><button class="smallbtn" onclick="openFind()">＋ Найти пользователя</button><button class="smallbtn" onclick="openProfile()">Профиль</button><button class="smallbtn world-launch" onclick="openUgrWorld()">🌌 UGR WORLD</button><button class="smallbtn" onclick="openTop10()">🏆 TOP-10</button><button class="smallbtn gift-launch" onclick="openGiftShop()">🎁 Подарки</button></div>
   <div class="section">ВАШИ ЧАТЫ</div><div class="chat-list" id="chatList"></div>
