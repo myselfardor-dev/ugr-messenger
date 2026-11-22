@@ -269,7 +269,53 @@ body{background:radial-gradient(ellipse at 10% 0%,#22204244,transparent 38%),rad
 .bubble:not(.mine) .voice-wave span.played{background:linear-gradient(180deg,#fff,#ffe76b,#ffc400)!important;opacity:1!important}
 .bubble:not(.mine) .voice-time{color:#fff!important}
 
-.bubble,.bubble .msg-content{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}.bubble{touch-action:pan-y}.bubble.selected{outline:2px solid #c6a2ff!important;background:linear-gradient(135deg,#39264f,#261c39)!important;box-shadow:0 0 0 4px #a78bfa22,0 8px 24px #0005!important}.chat-selection-bar button,.message-action-menu button{color:#f5efff!important;background:#302744!important;border:1px solid #67518a!important;border-radius:10px!important;padding:9px 11px!important;font-size:13px!important;font-weight:650!important}</style>
+.bubble,.bubble .msg-content{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}.bubble{touch-action:pan-y}.bubble.selected{outline:2px solid #c6a2ff!important;background:linear-gradient(135deg,#39264f,#261c39)!important;box-shadow:0 0 0 4px #a78bfa22,0 8px 24px #0005!important}.chat-selection-bar button,.message-action-menu button{color:#f5efff!important;background:#302744!important;border:1px solid #67518a!important;border-radius:10px!important;padding:9px 11px!important;font-size:13px!important;font-weight:650!important}
+/* UGR: prevent Android text-selection toolbar on message long press */
+#messages .bubble,
+#messages .bubble *,
+#messages .bubble .msg-content,
+#messages .bubble .msg-time,
+#messages .bubble .readmark {
+  -webkit-user-select:none !important;
+  user-select:none !important;
+  -webkit-touch-callout:none !important;
+}
+#messages .bubble {
+  touch-action:pan-y !important;
+  -webkit-tap-highlight-color:transparent;
+}
+#messages .bubble.selected {
+  outline:2px solid #d5b4ff !important;
+  background:linear-gradient(135deg,#39264f,#261c39) !important;
+  box-shadow:0 0 0 4px #a78bfa30,0 8px 24px #0006 !important;
+}
+#chatSelectionBar {
+  position:sticky !important;
+  bottom:0 !important;
+  z-index:100 !important;
+  display:flex !important;
+  flex-wrap:wrap !important;
+  align-items:center !important;
+  gap:7px !important;
+  padding:10px !important;
+  background:#171321 !important;
+  border:1px solid #7656a2 !important;
+  border-radius:14px !important;
+  box-shadow:0 8px 28px #0008 !important;
+}
+#chatSelectionBar button {
+  color:#fff !important;
+  background:#302443 !important;
+  border:1px solid #8061a8 !important;
+  border-radius:10px !important;
+  padding:9px 12px !important;
+  font-size:13px !important;
+  font-weight:650 !important;
+}
+#chatSelectionBar button:disabled {opacity:.4 !important}
+#chatSelectionBar .selection-count {color:#eadcff !important;font-weight:800 !important}
+
+</style>
 </head>
 <body>
 <div id="authScreen" class="screen">
