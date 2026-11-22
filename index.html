@@ -157,8 +157,7 @@ body{background:radial-gradient(ellipse at 10% 0%,#22204244,transparent 38%),rad
 .bubble.mine{background:linear-gradient(135deg,#250d40eF,#15101eeF 55%,#1a160eeF);border-color:#9a32ff77;border-radius:18px 18px 5px 18px;box-shadow:0 6px 20px #5900a322,inset 0 1px #ffffff10}
 /* Нейтральные входящие и яркие исходящие голосовые */
 .bubble:not(.mine){background:linear-gradient(145deg,#20202dF2,#292638F2);border-color:#393849;border-radius:18px 18px 18px 5px;box-shadow:0 6px 20px #0004,inset 0 1px #ffffff0b;color:#f4f1fa}
-.bubble:not(.mine) .msg-time{color:#aaa5b8}
-.bubble:not(.mine) .voice-card{background:linear-gradient(120deg,#292535,#211e2b 65%,#30263a);border-color:#50465e}
+.bubble:not(.mine) .msg-time{color:#aaa5b8}.bubble:not(.mine) .voice-card{background:linear-gradient(120deg,#292535,#211e2b 65%,#30263a);border-color:#50465e}
 .bubble:not(.mine) .voice-time{color:#d8cfe5}.bubble:not(.mine) .voice-play{background:linear-gradient(135deg,#e8def7,#c9b4e8);box-shadow:0 0 13px #8a66c944}.bubble:not(.mine) .voice-wave span{background:linear-gradient(180deg,#d8c8f5,#9875c9)!important;opacity:.82}.bubble:not(.mine) .voice-wave span.played{background:linear-gradient(180deg,#f1e7ff,#b89be9)!important;opacity:1}
 .bubble.mine:after{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(120deg,#a300ff08,#ffd00008)}.bubble.selected{outline:2px solid #a46cff;box-shadow:0 0 0 4px #a46cff22}.message-tools{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}.reaction-chip{background:#17121f;border:1px solid #69429a66;border-radius:999px;padding:4px 9px;font-size:13px}.reaction-chip.mine{border-color:#c06aff;background:#42205f}.reaction-picker{padding:7px;background:#0f0c16eF;border:1px solid #a24aff66;border-radius:16px;box-shadow:0 8px 22px #0008}.reaction-picker .reaction-chip{font-size:22px;padding:4px 7px}.voice-card{display:flex;align-items:center;gap:11px;min-width:min(290px,70vw);max-width:440px;padding:9px 12px;border-radius:18px;background:linear-gradient(115deg,#7540b8,#bd4fae 58%,#d65eaa);border:1px solid #d58be8aa;box-shadow:0 5px 16px #6c2d9b33,inset 0 1px #ffffff2a}.voice-play{width:42px;height:42px;flex:none;border-radius:50%;background:#fff;color:#8d4ab8;box-shadow:0 2px 8px #42145b44;font-size:17px}.voice-mid{flex:1;min-width:0}.voice-wave{height:32px;display:flex;align-items:center;gap:2px;cursor:pointer;touch-action:pan-y;flex:1}.voice-wave span{display:block;width:3px;min-height:4px;border-radius:4px;background:linear-gradient(#f7eaff,#e5b8f4);opacity:.82}.voice-wave span.played{background:linear-gradient(#fff,#f8d8ff);opacity:1}.voice-time{font-size:11px;color:#fff;margin-top:3px;font-variant-numeric:tabular-nums}.voice-card audio{display:none}.bubble .msg-time{color:#a99bb8;font-size:10px;margin-top:6px}.readmark{display:inline-block;margin-left:6px;font-size:10px;white-space:nowrap;color:#e6d0ff}.bubble:not(.mine) .readmark{color:#ffe49a}.msg-content{position:relative;z-index:1}.chat-selection-bar{display:flex;align-items:center;justify-content:space-around;gap:4px;padding:9px 6px;background:#120d1beF;border-top:1px solid #8b39bd66;backdrop-filter:blur(12px)}.chat-selection-bar button{background:#21172f;border:1px solid #583777;border-radius:10px;padding:8px 10px;font-size:12px}.chat-selection-bar .selection-count{font-size:12px;color:#d8c4ff;padding:0 6px}.bubble .reaction-picker{position:relative;z-index:3}
 
@@ -315,10 +314,15 @@ body{background:radial-gradient(ellipse at 10% 0%,#22204244,transparent 38%),rad
 #chatSelectionBar button:disabled {opacity:.4 !important}
 #chatSelectionBar .selection-count {color:#eadcff !important;font-weight:800 !important}
 
-</style>
+.bubble{-webkit-user-select:none!important;user-select:none!important;-webkit-touch-callout:none!important;touch-action:pan-y}
+.bubble *{-webkit-user-select:none!important;user-select:none!important;-webkit-touch-callout:none!important}
+.bubble.selected{outline:2px solid #c18aff!important;border:1px solid #c18aff!important;background:linear-gradient(135deg,#33204d,#211b35)!important;box-shadow:0 0 0 3px #a46cff55,0 0 24px #9b4dff55,inset 0 0 22px #a46cff20!important;filter:brightness(1.18)}
+.chat-selection-bar{background:linear-gradient(110deg,#171222f5,#20152ff5)!important;border:1px solid #70469b!important;border-radius:15px;margin:8px 10px;padding:10px!important;box-shadow:0 8px 28px #0009}
+.chat-selection-bar button{background:linear-gradient(145deg,#302143,#21182f)!important;color:#fff!important;border:1px solid #7954a4!important;border-radius:11px;padding:9px 11px;font-weight:700;text-shadow:none;box-shadow:0 3px 10px #0005}
+.chat-selection-bar button:disabled{opacity:.35}
+.message-action-menu,.message-action-menu button{background:#171222!important;color:#fff!important;border:1px solid #70469b!important}</style>
 </head>
-<body>
-<div id="authScreen" class="screen">
+<body><div id="authScreen" class="screen">
  <div class="panel">
   <img class="logo" src="./icons/icon-192.png?v=2" alt="UGR"><h1 style="margin-top:15px">UGR MESSENGER</h1>
   <div class="muted" id="authSubtitle">Твой личный мессенджер</div>
@@ -477,8 +481,7 @@ async function loadChats(){
   if(p)chats.push({id,other:p,last:last?.[0]||null});
  }
  const idsForStatus=chats.map(c=>c.other.id||c.other.user_id).filter(Boolean);
- if(idsForStatus.length){const {data:seen,error:seenError}=await sb.rpc('get_profile_last_seen',{target_user_ids:idsForStatus});if(!seenError)(seen||[]).forEach(x=>lastSeenByUser.set(x.user_id,x.last_seen_at));else console.warn('last seen:',seenError.message)}
- chats.sort((a,b)=>{const ap=(a.other.id||a.other.user_id)===DEVELOPER_USER_ID,bp=(b.other.id||b.other.user_id)===DEVELOPER_USER_ID;if(ap!==bp)return ap?-1:1;return new Date(b.last?.created_at||0)-new Date(a.last?.created_at||0)});renderChats();
+ if(idsForStatus.length){const {data:seen,error:seenError}=await sb.rpc('get_profile_last_seen',{target_user_ids:idsForStatus});if(!seenError)(seen||[]).forEach(x=>lastSeenByUser.set(x.user_id,x.last_seen_at));else console.warn('last seen:',seenError.message)} chats.sort((a,b)=>{const ap=(a.other.id||a.other.user_id)===DEVELOPER_USER_ID,bp=(b.other.id||b.other.user_id)===DEVELOPER_USER_ID;if(ap!==bp)return ap?-1:1;return new Date(b.last?.created_at||0)-new Date(a.last?.created_at||0)});renderChats();
 }
 function formatLastSeen(value){
  if(!value)return 'Не в сети';const d=new Date(value);if(Number.isNaN(d.getTime()))return 'Не в сети';
@@ -556,7 +559,13 @@ function appendMessage(m){
  if(m.pinned_at)b.classList.add('pinned');if(m.reply_to_id){const quote=document.createElement('div');quote.className='reply-preview';quote.textContent='↪ Ответ на сообщение';quote.onclick=()=>document.querySelector('[data-id="'+m.reply_to_id+'"]')?.scrollIntoView({behavior:'smooth',block:'center'});b.append(quote)}const body=document.createElement('div');body.className='msg-content';if(m.message_type==='voice'&&m.media_url){body.append(buildVoicePlayer(m.media_url,m.id));}else body.textContent=m.body||'';
  const tm=document.createElement('div');tm.className='msg-time';tm.textContent=new Date(m.created_at).toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'});if(m.sender_id===currentUser.id){const mark=document.createElement('span');mark.className='readmark';mark.dataset.read='';mark.textContent=m.read_at?'🙉 прочитано':m.delivered_at?'🙊 доставлено':'🙈 отправлено';tm.append(mark)}b.append(body,tm);
  const rx=document.createElement('div');rx.className='message-tools reactions';const current=normalizeReactions(m.reactions);Object.entries(current).forEach(([e,users])=>{if(users.length){const r=document.createElement('button');r.type='button';r.className='reaction-chip'+(users.includes(currentUser.id)?' mine':'');r.textContent=e+' '+users.length;r.onclick=(ev)=>{ev.stopPropagation();toggleReaction(m.id,e)};rx.append(r)}});if(rx.childElementCount)b.append(rx);
- b.addEventListener('contextmenu',e=>{e.preventDefault();showMessageActions(m)});b.addEventListener('click',e=>{if(e.target.closest('button')||e.target.closest('.voice-wave'))return;if(selectedMessageIds.size)toggleMessageSelection(m.id)});let touchX=0,touchY=0;b.addEventListener('touchstart',e=>{touchX=e.touches[0].clientX;touchY=e.touches[0].clientY;longPressTimer=setTimeout(()=>showMessageActions(m),600)},{passive:true});b.addEventListener('touchend',()=>clearTimeout(longPressTimer));b.addEventListener('touchmove',e=>{clearTimeout(longPressTimer);const dx=e.touches[0].clientX-touchX,dy=e.touches[0].clientY-touchY;if(dx>65&&Math.abs(dy)<45){b.classList.add('swiping');setReply(m);navigator.vibrate?.(12)} });
+ let pressX=0,pressY=0,pressTimer=null,longPressed=false,swipeHandled=false;
+ b.addEventListener('contextmenu',e=>{e.preventDefault();selectMessage(m.id)});
+ b.addEventListener('pointerdown',e=>{if(e.pointerType==='mouse'&&e.button!==0)return;pressX=e.clientX;pressY=e.clientY;longPressed=false;swipeHandled=false;clearTimeout(pressTimer);pressTimer=setTimeout(()=>{longPressed=true;selectMessage(m.id);navigator.vibrate?.(18)},480)});
+ b.addEventListener('pointermove',e=>{if(!pressTimer)return;const dx=e.clientX-pressX,dy=e.clientY-pressY;if(Math.hypot(dx,dy)>12)clearTimeout(pressTimer);if(dx>65&&Math.abs(dy)<45&&!swipeHandled){swipeHandled=true;b.classList.add('swiping');setReply(m);navigator.vibrate?.(12)}});
+ const endPress=()=>{clearTimeout(pressTimer);pressTimer=null};
+ b.addEventListener('pointerup',endPress);b.addEventListener('pointercancel',endPress);b.addEventListener('pointerleave',endPress);
+ b.addEventListener('click',e=>{if(e.target.closest('button')||e.target.closest('.voice-wave'))return;if(longPressed){e.preventDefault();longPressed=false;return}if(selectedMessageIds.size)toggleMessageSelection(m.id)});
  $('messages').append(b);scrollMessages();
 }
 function renderReplyCompose(){document.querySelector('.reply-compose')?.remove();if(!replyingTo||!document.querySelector('.composer-wrap'))return;const el=document.createElement('div');el.className='reply-compose';const t=document.createElement('span');t.textContent='↪ Ответ: '+(replyingTo.body||'Голосовое сообщение').slice(0,100);const x=document.createElement('button');x.textContent='✕';x.onclick=()=>{replyingTo=null;renderReplyCompose()};el.append(t,x);document.querySelector('.composer-wrap').prepend(el)}
@@ -637,8 +646,7 @@ async function openProfile(){
  $('previewNick').textContent='@'+(profile.username||'username');$('previewDisplayName').textContent=profile.display_name||'';renderAvatar($('previewAvatar'),profile);$('avatarFile').onchange=()=>{const f=$('avatarFile').files?.[0];if(f){selectedAvatarPhoto=true;const u=URL.createObjectURL(f);$('previewAvatar').innerHTML='';const img=document.createElement('img');img.src=u;$('previewAvatar').append(img)}};buildEmojiPicker();updateCurtainButton();
 }
 const AVATAR_EMOJIS=['🙂','😎','😈','👻','🐸','🐱','🐼','🦊','🐧','🐥','🦋','🐉','💀','🤡','🤖','👑','🔥','⭐','🌙','❤️','💜','⚡','🍀','🎭'];
-function buildEmojiPicker(){const box=$('emojiPicker');box.innerHTML='';AVATAR_EMOJIS.forEach(e=>{const b=document.createElement('button');b.type='button';b.className='emoji-choice'+(e===selectedAvatarEmoji?' selected':'');b.textContent=e;b.onclick=()=>{selectedAvatarEmoji=e;selectedAvatarPhoto=false;$('avatarFile').value='';$('previewAvatar').innerHTML='';$('previewAvatar').textContent=e;$('previewAvatar').classList.add('emoji-avatar');buildEmojiPicker()};box.append(b)})}
-function previewCurtainColor(color){selectedCurtainColor=safeColor(color);$('curtainPreview').style.setProperty('--curtain-base',selectedCurtainColor)}
+function buildEmojiPicker(){const box=$('emojiPicker');box.innerHTML='';AVATAR_EMOJIS.forEach(e=>{const b=document.createElement('button');b.type='button';b.className='emoji-choice'+(e===selectedAvatarEmoji?' selected':'');b.textContent=e;b.onclick=()=>{selectedAvatarEmoji=e;selectedAvatarPhoto=false;$('avatarFile').value='';$('previewAvatar').innerHTML='';$('previewAvatar').textContent=e;$('previewAvatar').classList.add('emoji-avatar');buildEmojiPicker()};box.append(b)})}function previewCurtainColor(color){selectedCurtainColor=safeColor(color);$('curtainPreview').style.setProperty('--curtain-base',selectedCurtainColor)}
 function updateCurtainButton(){const closed=!!profile?.profile_private;if($('curtainButton'))$('curtainButton').textContent=closed?'Открыть шторки':'Закрыть шторками';if($('curtainQuickLabel'))$('curtainQuickLabel').textContent=closed?'Открыть шторки':'Закрыть шторками';$('curtainPreview')?.classList.toggle('closed',closed)}
 async function viewUserProfile(userId){
  if(!userId){toast('Не удалось определить пользователя');return}
@@ -797,8 +805,7 @@ async function ugrWorldRpc(fn,args,success){
   toast(success);
   await refreshUgrWorldData();
   if(data?.coins_awarded)toast(success+' · получена награда');
- }catch(e){toast(e.message||'Не удалось выполнить действие')}finally{ugrWorldBusy=false}
-}
+ }catch(e){toast(e.message||'Не удалось выполнить действие')}finally{ugrWorldBusy=false}}
 
 async function signOut(){if(sb)await sb.auth.signOut();localStorage.removeItem('ugr_session_hint');location.reload()}
 $('messageInput').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage()}});
