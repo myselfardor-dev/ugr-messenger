@@ -9,8 +9,7 @@
 <meta name="apple-mobile-web-app-title" content="UGR Messenger">
 <meta name="mobile-web-app-capable" content="yes">
 <link rel="manifest" href="./manifest.webmanifest">
-<link rel="apple-touch-icon" href="./icons/icon-192.png">
-<link rel="icon" type="image/png" sizes="64x64" href="./icons/favicon.png">
+<link rel="apple-touch-icon" href="./icons/icon-192.png?v=2">
 <title>UGR MESSENGER</title>
 <style>
 :root{--bg:#0d0d12;--panel:#15151d;--panel2:#1c1c27;--line:#292936;--muted:#9292a5;--text:#f3f2f8;--accent:#9b78f5;--accent2:#7350d5;--green:#55d69a;--red:#ff707d}
@@ -18,7 +17,7 @@
 button,input,textarea{font:inherit}button{cursor:pointer;color:inherit;border:0}
 .app{height:var(--app-height,100dvh);display:grid;grid-template-columns:340px 1fr;max-width:1500px;margin:auto;background:var(--panel)}
 .sidebar{border-right:1px solid var(--line);display:flex;flex-direction:column;min-width:0;min-height:0;height:100%}
-.brand{padding:22px 20px 16px;display:flex;align-items:center;gap:12px}.logo{height:42px;width:42px;border-radius:14px;background:linear-gradient(145deg,#b59aff,#6842cf);display:grid;place-items:center;font-weight:900;font-size:22px;color:white;box-shadow:0 7px 24px #8059dc44}.brand-name{font-weight:850;letter-spacing:2px;font-size:18px}.brand-sub{color:var(--muted);font-size:10px;letter-spacing:2.2px;margin-top:2px}
+.brand{padding:22px 20px 16px;display:flex;align-items:center;gap:12px}.logo{height:42px;width:42px;border-radius:14px;display:block;object-fit:cover;flex:none;box-shadow:0 7px 24px #8059dc44}.brand-name{font-weight:850;letter-spacing:2px;font-size:18px}.brand-sub{color:var(--muted);font-size:10px;letter-spacing:2.2px;margin-top:2px}
 .search{margin:0 16px 14px}.search input,.field{width:100%;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:12px 14px;color:var(--text);outline:none}.section{padding:5px 20px 9px;color:var(--muted);font-size:11px;font-weight:700;letter-spacing:1.5px}
 .chat-list{flex:1;min-height:0;overflow:auto;padding:0 9px 14px;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}.chat{display:flex;gap:12px;padding:12px;border-radius:13px;align-items:center;cursor:pointer}.chat:hover,.chat.active{background:#29233a}.avatar{width:45px;height:45px;flex:none;border-radius:50%;display:grid;place-items:center;font-weight:800;background:linear-gradient(145deg,#9874ec,#5132a2);color:#e7dcff}.chat-info{min-width:0;flex:1}.chat-top{display:flex;justify-content:space-between;gap:8px}.chat-name{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.time{font-size:11px;color:var(--muted);white-space:nowrap}.preview{color:var(--muted);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:4px}
 .sidebar-bottom{margin-top:auto;padding:14px 18px;border-top:1px solid var(--line);display:flex;align-items:center;gap:10px}.me-avatar{width:34px;height:34px;border-radius:50%;background:#3b3155;display:grid;place-items:center;font-weight:800}.me{flex:1;min-width:0}.me small{display:block;color:var(--muted);font-size:11px}.icon-btn{background:transparent;color:var(--muted);font-size:20px;padding:7px;border-radius:9px}
@@ -34,7 +33,7 @@ button,input,textarea{font:inherit}button{cursor:pointer;color:inherit;border:0}
 body{background:radial-gradient(ellipse at 10% 0%,#22204244,transparent 38%),radial-gradient(ellipse at 90% 100%,#15334b22,transparent 35%),var(--bg)}
 .app{background:linear-gradient(160deg,#11131b,#0c0e14);border:1px solid #202434;border-radius:0;box-shadow:0 0 45px #05060a66}
 .sidebar{background:linear-gradient(180deg,#12141d,#0d0f15)}
-.logo{background:linear-gradient(145deg,#80caff,#8f6bff 65%,#6235cf);box-shadow:0 7px 24px #7755ed44}
+.logo{box-shadow:0 7px 24px #7755ed44}
 .brand-name{letter-spacing:2.5px}.brand-sub{color:#8a91a7}
 .search input,.field{background:#171a24;border-color:#282e3d;transition:border-color .18s,box-shadow .18s}.search input:focus,.field:focus{border-color:#8270df;box-shadow:0 0 0 3px #8270df1c}
 .chat{margin:3px 0;padding:12px;border:1px solid transparent;transition:background .16s,border-color .16s}.chat:hover{background:#1a1e2b;border-color:#252b3b}.chat.active{background:linear-gradient(110deg,#292442,#1a2534);border-color:#373457}
@@ -233,16 +232,49 @@ body{background:radial-gradient(ellipse at 10% 0%,#22204244,transparent 38%),rad
 .bubble:not(.mine){background:#6b571f;border-color:#8b7436;color:#fff3d0}.bubble:not(.mine) .msg-time{color:#f5df9a}.voice-record-panel{display:flex;align-items:center;gap:12px;max-width:850px;margin:auto;width:100%;background:#1b1b25;border:1px solid #383348;border-radius:18px;padding:12px;animation:recordPanelIn .24s ease-out}.record-dot{width:12px;height:12px;border-radius:50%;background:#ff394e;box-shadow:0 0 10px #ff394e;animation:recordPulse 1s infinite}.voice-record-timer{font-variant-numeric:tabular-nums;font-size:17px;font-weight:700;flex:1}.voice-cancel{background:transparent;color:#ffb0ba;font-weight:800;font-size:12px}.voice-send{width:54px;height:54px;border-radius:50%;background:#8c52d9;color:white;font-size:22px;box-shadow:0 4px 18px #8c52d955}.voice-record-panel button{border:0;cursor:pointer}.voice-record-panel button:active{transform:scale(.96)}@keyframes recordPanelIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}@keyframes recordPulse{50%{opacity:.35;transform:scale(.85)}}.gift-sender-avatar{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;overflow:hidden;border:1px solid #9d82d5;background:#493477;margin:8px auto 0;font-size:17px;cursor:pointer}.gift-sender-avatar img{width:100%;height:100%;object-fit:cover}.gift-collection-item{display:flex;flex-direction:column;align-items:center}.compact-curtain{padding:10px 12px!important}.curtain-controls{display:flex;align-items:center;justify-content:flex-end;gap:10px}.curtain-quick-action{border-color:#7254a8!important;background:#302447!important}.curtain-controls input[type=color]{width:30px;height:30px;padding:0;border:0;border-radius:8px;background:transparent}.emoji-fold summary{cursor:pointer;color:#c9b5f1;font-size:13px;padding:7px 0}.emoji-picker{max-height:150px;overflow:auto;display:flex;flex-wrap:wrap;gap:5px}.emoji-choice{width:36px;height:36px;font-size:20px}
 
 
-/* UGR new neon logo */
-.brand-symbol{display:block;object-fit:cover;border-radius:12px;flex:none}
-.sidebar-symbol{width:42px;height:42px;box-shadow:0 5px 20px #7900ff33}
-.auth-symbol{width:104px;height:104px;margin:0 auto 10px;border-radius:24px;box-shadow:0 0 34px #7d00ff33}
+/* UGR CHAT COLORS — FINAL NEON PURPLE / NEON GOLD */
+.bubble.mine{
+  color:#fff!important;
+  background:linear-gradient(135deg,rgba(74,0,125,.34),rgba(30,4,54,.22) 65%,rgba(12,5,22,.20))!important;
+  border:1px solid rgba(181,65,255,.72)!important;
+  box-shadow:0 0 8px rgba(162,35,255,.22),0 0 20px rgba(130,0,255,.12),inset 0 0 14px rgba(160,30,255,.08)!important;
+  backdrop-filter:blur(12px);
+}
+.bubble.mine .msg-content,.bubble.mine .msg-time,.bubble.mine .readmark{color:#fff!important}
+.bubble:not(.mine){
+  color:#fff!important;
+  background:linear-gradient(135deg,rgba(106,79,0,.20),rgba(42,29,0,.16) 68%,rgba(10,8,4,.14))!important;
+  border:1px solid rgba(255,207,36,.55)!important;
+  box-shadow:0 0 8px rgba(255,193,0,.10),inset 0 0 12px rgba(255,200,20,.035)!important;
+  backdrop-filter:blur(12px);
+}
+.bubble:not(.mine) .msg-content,.bubble:not(.mine) .msg-time,.bubble:not(.mine) .readmark{color:#fff!important}
+/* Voice cards: monochrome accent per sender, including button, wave, and progress */
+.bubble.mine .voice-card{
+  background:linear-gradient(120deg,rgba(70,0,140,.72),rgba(116,0,220,.62),rgba(34,0,80,.76))!important;
+  border:1px solid rgba(198,86,255,.82)!important;
+  box-shadow:0 0 12px rgba(151,0,255,.28),inset 0 0 14px rgba(193,80,255,.12)!important;
+}
+.bubble.mine .voice-play{background:linear-gradient(145deg,#bd45ff,#7900ed)!important;color:#fff!important;box-shadow:0 0 16px rgba(178,40,255,.55)!important}
+.bubble.mine .voice-wave span{background:linear-gradient(180deg,#efc7ff,#b64cff,#7d19ff)!important;opacity:.95!important}
+.bubble.mine .voice-wave span.played{background:linear-gradient(180deg,#fff,#efbaff,#c65aff)!important;opacity:1!important}
+.bubble.mine .voice-time{color:#fff!important}
+.bubble:not(.mine) .voice-card{
+  background:linear-gradient(120deg,rgba(90,66,0,.35),rgba(160,111,0,.30),rgba(35,25,0,.34))!important;
+  border:1px solid rgba(255,210,52,.60)!important;
+  box-shadow:0 0 9px rgba(255,205,20,.12),inset 0 0 12px rgba(255,215,35,.05)!important;
+}
+.bubble:not(.mine) .voice-play{background:linear-gradient(145deg,#ffe66b,#e0a900)!important;color:#fff!important;box-shadow:0 0 13px rgba(255,209,33,.32)!important}
+.bubble:not(.mine) .voice-wave span{background:linear-gradient(180deg,#fff5b9,#ffda37,#d69c00)!important;opacity:.95!important}
+.bubble:not(.mine) .voice-wave span.played{background:linear-gradient(180deg,#fff,#ffe76b,#ffc400)!important;opacity:1!important}
+.bubble:not(.mine) .voice-time{color:#fff!important}
+
 </style>
 </head>
 <body>
 <div id="authScreen" class="screen">
  <div class="panel">
-  <img class="brand-symbol auth-symbol" src="./icons/icon-192.png" alt="UGR logo"><h1 style="margin-top:15px">UGR MESSENGER</h1>
+  <img class="logo" src="./icons/icon-192.png?v=2" alt="UGR"><h1 style="margin-top:15px">UGR MESSENGER</h1>
   <div class="muted" id="authSubtitle">Твой личный мессенджер</div>
   <div id="authForm" class="form hidden">
    <input id="email" class="field" type="email" autocomplete="email" placeholder="Электронная почта">
@@ -256,7 +288,7 @@ body{background:radial-gradient(ellipse at 10% 0%,#22204244,transparent 38%),rad
 </div>
 <div class="app hidden" id="app">
  <aside class="sidebar">
-  <div class="brand"><img class="brand-symbol sidebar-symbol" src="./icons/icon-192.png" alt="UGR logo"><div><div class="brand-name">UGR</div><div class="brand-sub">MESSENGER</div></div></div>
+  <div class="brand"><img class="logo" src="./icons/icon-192.png?v=2" alt="UGR"><div><div class="brand-name">UGR</div><div class="brand-sub">MESSENGER</div></div></div>
   <div class="search"><input id="searchChats" placeholder="Поиск чатов..." oninput="renderChats()"></div>
   <div class="toolbar"><button class="smallbtn" onclick="openFind()">＋ Найти пользователя</button><button class="smallbtn" onclick="openProfile()">Профиль</button><button class="smallbtn world-launch" onclick="openUgrWorld()">🌌 UGR WORLD</button><button class="smallbtn" onclick="openTop10()">🏆 TOP-10</button><button class="smallbtn gift-launch" onclick="openGiftShop()">🎁 Подарки</button></div>
   <div class="section">ВАШИ ЧАТЫ</div><div class="chat-list" id="chatList"></div>
