@@ -459,6 +459,11 @@ function renderAvatar(el,p){
  if(p?.avatar_emoji){el.textContent=p.avatar_emoji;el.classList.add('emoji-avatar');}else{el.textContent=(p?.username||'U')[0].toUpperCase();el.classList.remove('emoji-avatar');}
 }
 function safeColor(c){return /^#[0-9a-fA-F]{6}$/.test(c||'')?c:'#5a3b8d';}
+async function attachAvatarAppearance(people){
+ const ids=[...new Set((people||[]).map(p=>p?.id||p?.user_id).filter(Boolean))];if(!ids.length)return people||[];
+ const {data,error}=await sb.rpc('get_ugr_avatar_appearance',{target_user_ids:ids});if(error){console.warn('Avatar appearance:',error.message);return people||[]}
+ const map=new Map((data||[]).map(x=>[x.user_id,x]));(people||[]).forEach(p=>{const id=p?.id||p?.user_id,style=map.get(id);if(style)Object.assign(p,style)});return people||[];
+}
 let globalChannel=null;
 function subscribeGlobalMessages(){
  if(globalChannel)sb.removeChannel(globalChannel);
@@ -520,7 +525,7 @@ async function loadChats(){
   let card=null;if(other.user_id===DEVELOPER_USER_ID){const {data:devCard}=await sb.rpc('get_developer_profile_card');card=Array.isArray(devCard)?devCard[0]:devCard;}else{const {data:cards}=await sb.rpc('get_profile_cards',{target_user_ids:[other.user_id]});card=cards?.[0]||null;}const {data:details}=await sb.rpc('get_public_profile_details',{target_user_id:other.user_id});const detail=Array.isArray(details)?details[0]:details;const p=card?{...card,...(detail||{}),...(other.user_id===DEVELOPER_USER_ID?card:{}),id:other.user_id}:null;
   const {data:last}=await sb.from('messages').select('body,created_at').eq('conversation_id',id).order('created_at',{ascending:false}).limit(1);  if(p)chats.push({id,other:p,last:last?.[0]||null});
  }
- const idsForStatus=chats.map(c=>c.other.id||c.other.user_id).filter(Boolean);
+ await attachAvatarAppearance(chats.map(c=>c.other));const idsForStatus=chats.map(c=>c.other.id||c.other.user_id).filter(Boolean);
  if(idsForStatus.length){const {data:seen,error:seenError}=await sb.rpc('get_profile_last_seen',{target_user_ids:idsForStatus});if(!seenError)(seen||[]).forEach(x=>lastSeenByUser.set(x.user_id,x.last_seen_at));else console.warn('last seen:',seenError.message)} chats.sort((a,b)=>{const ap=(a.other.id||a.other.user_id)===DEVELOPER_USER_ID,bp=(b.other.id||b.other.user_id)===DEVELOPER_USER_ID;if(ap!==bp)return ap?-1:1;return new Date(b.last?.created_at||0)-new Date(a.last?.created_at||0)});renderChats();
 }
 function formatLastSeen(value){
@@ -557,7 +562,7 @@ async function searchUsers(){
  const q=$('findInput').value.trim().replace(/^@/,'').toLowerCase();if(q.length<2){toast('Введи минимум 2 символа');return}
  const {data,error}=await sb.rpc('search_profiles',{search_term:q});
  const out=$('findResults');out.innerHTML='';if(error){out.textContent=error.message;return}
- if(!data?.length){out.textContent='Никого не нашли';return}
+ if(!data?.length){out.textContent='Никого не нашли';return}await attachAvatarAppearance(data);
  data.forEach(p=>{const row=document.createElement('div');row.className='user-result';const av=document.createElement('div');av.className='avatar';renderAvatar(av,p);const name=document.createElement('div');name.className='grow';name.textContent='@'+p.username;name.style.cursor='pointer';name.onclick=()=>viewUserProfile(p.id);const btn=document.createElement('button');btn.className='smallbtn';btn.textContent='Профиль';btn.onclick=()=>viewUserProfile(p.id);const write=document.createElement('button');write.className='smallbtn';write.textContent='Написать';write.onclick=()=>startChat(p);row.append(av,name,btn,write);out.append(row)});
 }
 async function startChat(person){
@@ -691,7 +696,7 @@ async function viewUserProfile(userId){
  if(!userId){toast('Не удалось определить пользователя');return}
  if(userId===currentUser?.id){await openProfile();return}
  try{
- const {data,error}=await sb.rpc('get_public_profile_details',{target_user_id:userId});if(error)throw error;const p=Array.isArray(data)?data[0]:data;if(!p){toast('Профиль недоступен');return}
+ const {data,error}=await sb.rpc('get_public_profile_details',{target_user_id:userId});if(error)throw error;const p=Array.isArray(data)?data[0]:data;if(!p){toast('Профиль недоступен');return}await attachAvatarAppearance([p]);
  const closed=!!p.profile_private;const online=typeof isUserOnline==='function'&&isUserOnline(userId);const {data:seenData}=await sb.rpc('get_profile_last_seen',{target_user_ids:[userId]});const seenRow=(seenData||[])[0];if(seenRow?.last_seen_at)lastSeenByUser.set(userId,seenRow.last_seen_at);const statusText=online?'В сети':formatLastSeen(seenRow?.last_seen_at);
  $('modalTitle').textContent='Профиль';
  $('modalBody').innerHTML=`<div class="profile-view" id="foreignProfile"><div class="profile-curtain-stage ${closed?'closed':''}" id="publicCurtainPreview"><div class="curtain left"></div><div class="curtain right"></div></div><div class="profile-hero"><div class="profile-hero-avatar" id="publicPreviewAvatar"></div><div class="profile-display-name" id="publicDisplayName"></div><div class="profile-username" id="publicPreviewNick"></div><div class="profile-status ${online?'':'offline'}" id="publicStatus">● ${statusText}</div></div><div class="profile-action-row"><button class="profile-action" id="publicCallButton"><span class="action-icon">☎</span><span>Звонок</span></button><button class="profile-action" id="publicWriteButton"><span class="action-icon">✉</span><span>Чат</span></button><button class="profile-action" id="publicMoreButton"><span class="action-icon">•••</span><span>Ещё</span></button></div><div class="profile-section"><div class="profile-section-title">Информация о себе</div><div class="profile-section-value" id="publicBio">${closed?'': 'Нет информации о себе'}</div></div><div class="profile-section" id="publicMeta"><div class="profile-section-title">Информация</div><div class="profile-meta-row"><span>Имя пользователя</span><strong id="metaUsername"></strong></div><div class="profile-meta-row" id="joinedRow"><span>В UGR с</span><strong id="metaJoined">—</strong></div></div><div class="profile-section"><div class="profile-section-title">🎁 Подарки</div><div id="publicGiftCollection" class="gift-collection"><span class="muted">Загружаем коллекцию…</span></div></div><div class="profile-section"><div class="profile-section-title">Медиа</div><div class="profile-section-value muted" id="publicMedia">Медиафайлы появятся здесь, когда будет подключён общий медиакаталог.</div></div></div>`;
