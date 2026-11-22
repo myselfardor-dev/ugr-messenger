@@ -114,10 +114,10 @@ BEGIN
   SET last_claim_date = v_today, cycle_day = v_day
   WHERE user_id = v_user;
 
-  INSERT INTO public.user_xp(user_id, xp)
+  INSERT INTO public.user_xp AS ux(user_id, xp)
   VALUES (v_user, v_award)
   ON CONFLICT (user_id)
-  DO UPDATE SET xp = public.user_xp.xp + EXCLUDED.xp
+  DO UPDATE SET xp = ux.xp + EXCLUDED.xp
   RETURNING xp INTO v_total;
 
   RETURN QUERY SELECT v_award, v_total, v_day, false;
