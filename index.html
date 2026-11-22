@@ -269,7 +269,7 @@ body{background:radial-gradient(ellipse at 10% 0%,#22204244,transparent 38%),rad
 .bubble:not(.mine) .voice-wave span.played{background:linear-gradient(180deg,#fff,#ffe76b,#ffc400)!important;opacity:1!important}
 .bubble:not(.mine) .voice-time{color:#fff!important}
 
-</style>
+.bubble,.bubble .msg-content{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}.bubble{touch-action:pan-y}.bubble.selected{outline:2px solid #c6a2ff!important;background:linear-gradient(135deg,#39264f,#261c39)!important;box-shadow:0 0 0 4px #a78bfa22,0 8px 24px #0005!important}.chat-selection-bar button,.message-action-menu button{color:#f5efff!important;background:#302744!important;border:1px solid #67518a!important;border-radius:10px!important;padding:9px 11px!important;font-size:13px!important;font-weight:650!important}</style>
 </head>
 <body>
 <div id="authScreen" class="screen">
@@ -515,7 +515,7 @@ function appendMessage(m){
 }
 function renderReplyCompose(){document.querySelector('.reply-compose')?.remove();if(!replyingTo||!document.querySelector('.composer-wrap'))return;const el=document.createElement('div');el.className='reply-compose';const t=document.createElement('span');t.textContent='↪ Ответ: '+(replyingTo.body||'Голосовое сообщение').slice(0,100);const x=document.createElement('button');x.textContent='✕';x.onclick=()=>{replyingTo=null;renderReplyCompose()};el.append(t,x);document.querySelector('.composer-wrap').prepend(el)}
 function setReply(m){replyingTo=m;renderReplyCompose();$('messageInput')?.focus();toast('Ответ на сообщение выбран')}
-function showMessageActions(m){const old=document.querySelector('.message-action-menu');old?.remove();const menu=document.createElement('div');menu.className='message-action-menu';menu.style.cssText='position:fixed;z-index:100;left:50%;top:50%;transform:translate(-50%,-50%);background:#17121f;border:1px solid #7952a0;border-radius:14px;padding:10px;display:flex;flex-wrap:wrap;gap:7px;box-shadow:0 12px 40px #000b;max-width:90vw';const actions=[['↩ Ответить',()=>setReply(m)],['📌 '+(m.pinned_at?'Открепить':'Закрепить'),()=>togglePin(m)],['📋 Копировать',()=>navigator.clipboard?.writeText(m.body||'').then(()=>toast('Скопировано'))],['🗑 Удалить',()=>deleteMessage(m)],['✕ Закрыть',()=>{}]];actions.forEach(([label,fn])=>{const b=document.createElement('button');b.textContent=label;b.onclick=()=>{menu.remove();fn()};menu.append(b)});document.body.append(menu);const close=e=>{if(!menu.contains(e.target)){menu.remove();document.removeEventListener('pointerdown',close)}};setTimeout(()=>document.addEventListener('pointerdown',close),0)}
+function showMessageActions(m){if(!m||!m.id)return;selectMessage(m.id)}
 async function togglePin(m){const pinned=!!m.pinned_at;const {data,error}=await sb.from('messages').update({pinned_at:pinned?null:new Date().toISOString()}).eq('id',m.id).select('id,conversation_id,sender_id,body,created_at,delivered_at,read_at,message_type,media_url,reactions,reply_to_id,pinned_at').single();if(error){toast('Не удалось изменить закрепление: '+error.message);return}refreshMessage(data);await loadPinnedMessage(m.conversation_id)}
 async function loadPinnedMessage(id){const {data,error}=await sb.from('messages').select('id,body,message_type').eq('conversation_id',id).not('pinned_at','is',null).order('pinned_at',{ascending:false}).limit(1);if(error){console.warn('pinned message',error.message);return}document.querySelector('.pinned-banner')?.remove();if(data?.[0]){const bar=document.createElement('div');bar.className='pinned-banner';bar.innerHTML='<span>📌 Закреплено: '+escapeHtml((data[0].body||'Голосовое сообщение').slice(0,100))+'</span><b>Перейти →</b>';bar.onclick=()=>document.querySelector('[data-id="'+data[0].id+'"]')?.scrollIntoView({behavior:'smooth',block:'center'});document.querySelector('.topbar').after(bar)}}
 function escapeHtml(v){return String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
@@ -769,8 +769,6 @@ $('messageInput').addEventListener('focus',()=>setTimeout(syncAppViewport,180));
 syncAppViewport();
 initSupabase();
 </script>
-<script>
-<script src="./message-actions.js?v=1"></script>
 <script>
 if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
   window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(err => console.warn('Service worker:', err)));
