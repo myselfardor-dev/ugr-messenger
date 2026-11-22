@@ -17,7 +17,8 @@ self.addEventListener('push',event=>{
 });
 self.addEventListener('notificationclick',event=>{
  event.notification.close();
- const target=new URL(event.notification.data?.url||'/ugr-messenger/',self.location.origin).href;
+ const rawTarget=event.notification.data?.url||'/ugr-messenger/';
+ const target=new URL(rawTarget==='.'||rawTarget==='./'?'/ugr-messenger/':rawTarget,self.location.origin).href;
  event.waitUntil(clients.matchAll({type:'window',includeUncontrolled:true}).then(list=>{
   for(const client of list){if(new URL(client.url).origin===self.location.origin){client.focus();return client.navigate(target)}}
   return clients.openWindow(target);
