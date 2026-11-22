@@ -36,7 +36,7 @@ GRANT EXECUTE ON FUNCTION public.get_ugr_avatar_appearance(uuid[]) TO authentica
 -- Real TOP-10 based on the existing user_xp balance table.
 CREATE OR REPLACE FUNCTION public.get_ugr_top10_profiles()
 RETURNS TABLE(
-  id uuid, position bigint, username text, xp integer,
+  id uuid, rank_position bigint, username text, xp integer,
   avatar_url text, avatar_emoji text, avatar_animation text, avatar_frame text
 )
 LANGUAGE sql STABLE SECURITY DEFINER
