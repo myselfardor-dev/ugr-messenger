@@ -51,7 +51,7 @@ Deno.serve(async (req) => {
     if (!subscriptions?.length) return json({ sent: 0 });
 
     webpush.setVapidDetails(sender, publicKey, privateKey);
-    const payload = JSON.stringify({ title: "UGR MESSENGER", body: "Вам пришло сообщение! Откройте UGR, чтобы посмотреть.", url: "./" });
+    const payload = JSON.stringify({ title: "UGR MESSENGER", body: "Вам пришло сообщение! Откройте UGR, чтобы посмотреть.", url: "/ugr-messenger/" });
     let sent = 0;
     const staleIds: number[] = [];
     await Promise.all(subscriptions.map(async (row) => {
