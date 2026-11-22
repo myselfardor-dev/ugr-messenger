@@ -770,6 +770,8 @@ syncAppViewport();
 initSupabase();
 </script>
 <script>
+<script src="./message-actions.js?v=1"></script>
+<script>
 if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
   window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(err => console.warn('Service worker:', err)));
 }
